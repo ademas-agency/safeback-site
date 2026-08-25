@@ -1,0 +1,283 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #0B1230;
+  --color-foreground: #ffffff;
+  --color-blue: #2F6BFF;
+  --color-violet: #7C3AED;
+  --color-lavande: #B9A8FF;
+  --color-nuit: #0B1230;
+  --color-nuit-light: #111b45;
+  --color-nuit-lighter: #182254;
+  --color-card: rgba(255, 255, 255, 0.05);
+  --color-card-border: rgba(255, 255, 255, 0.1);
+  --font-sans: var(--font-inter);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #0B1230;
+  color: #ffffff;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+}
+
+::selection {
+  background: rgba(124, 58, 237, 0.4);
+  color: #ffffff;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #2F6BFF 0%, #7C3AED 50%, #B9A8FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, #2F6BFF 0%, #7C3AED 100%);
+}
+
+.gradient-bg-hover:hover {
+  background: linear-gradient(135deg, #4a82ff 0%, #9155f5 100%);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glow-blue {
+  box-shadow: 0 0 60px rgba(47, 107, 255, 0.15), 0 0 120px rgba(124, 58, 237, 0.1);
+}
+
+.glow-violet {
+  box-shadow: 0 0 60px rgba(124, 58, 237, 0.2);
+}
+
+.section-divider {
+  background: linear-gradient(90deg, transparent, rgba(185, 168, 255, 0.2), transparent);
+  height: 1px;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+.animate-scroll {
+  animation: scroll 50s linear infinite;
+  will-change: transform;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(47, 107, 255, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.5); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.phone-mockup {
+  background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2rem;
+  padding: 0.5rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 60px rgba(47, 107, 255, 0.1);
+}
+
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@property --gradient-angle-offset {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@property --gradient-percent {
+  syntax: "<percentage>";
+  initial-value: 5%;
+  inherits: false;
+}
+
+@property --gradient-shine {
+  syntax: "<color>";
+  initial-value: white;
+  inherits: false;
+}
+
+.shiny-cta {
+  --shiny-cta-bg: #0B1230;
+  --shiny-cta-bg-subtle: #141d3d;
+  --shiny-cta-fg: #ffffff;
+  --shiny-cta-highlight: #2F6BFF;
+  --shiny-cta-highlight-subtle: #7C3AED;
+  --shiny-cta-duration: 3s;
+  --shiny-cta-shadow-size: 2px;
+  --shiny-cta-transition: 800ms cubic-bezier(0.25, 1, 0.5, 1);
+
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  outline-offset: 4px;
+  padding: 0.625rem 1.5rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  border-radius: 360px;
+  color: var(--shiny-cta-fg);
+  background:
+    linear-gradient(var(--shiny-cta-bg), var(--shiny-cta-bg)) padding-box,
+    conic-gradient(
+      from calc(var(--gradient-angle) - var(--gradient-angle-offset)),
+      transparent,
+      var(--shiny-cta-highlight) var(--gradient-percent),
+      var(--gradient-shine) calc(var(--gradient-percent) * 2),
+      var(--shiny-cta-highlight) calc(var(--gradient-percent) * 3),
+      transparent calc(var(--gradient-percent) * 4)
+    ) border-box;
+  box-shadow: inset 0 0 0 1px var(--shiny-cta-bg-subtle);
+  transition: var(--shiny-cta-transition);
+  transition-property: --gradient-angle-offset, --gradient-percent, --gradient-shine;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation:
+    shiny-gradient-angle var(--shiny-cta-duration) linear infinite,
+    shiny-gradient-angle calc(var(--shiny-cta-duration) / 0.4) reverse paused;
+  animation-composition: add;
+}
+
+.shiny-cta::before,
+.shiny-cta::after,
+.shiny-cta > span::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  z-index: -1;
+}
+
+.shiny-cta:active {
+  translate: 0 1px;
+}
+
+.shiny-cta::before {
+  --size: calc(100% - var(--shiny-cta-shadow-size) * 3);
+  --position: 2px;
+  --space: calc(var(--position) * 2);
+  width: var(--size);
+  height: var(--size);
+  background: radial-gradient(
+    circle at var(--position) var(--position),
+    white calc(var(--position) / 4),
+    transparent 0
+  ) padding-box;
+  background-size: var(--space) var(--space);
+  background-repeat: space;
+  mask-image: conic-gradient(
+    from calc(var(--gradient-angle) + 45deg),
+    black,
+    transparent 10% 90%,
+    black
+  );
+  border-radius: inherit;
+  opacity: 0.4;
+  z-index: -1;
+  animation:
+    shiny-gradient-angle var(--shiny-cta-duration) linear infinite,
+    shiny-gradient-angle calc(var(--shiny-cta-duration) / 0.4) reverse paused;
+  animation-composition: add;
+}
+
+.shiny-cta::after {
+  width: 100%;
+  aspect-ratio: 1;
+  background: linear-gradient(
+    -50deg,
+    transparent,
+    var(--shiny-cta-highlight),
+    transparent
+  );
+  mask-image: radial-gradient(circle at bottom, transparent 40%, black);
+  opacity: 0.6;
+  animation:
+    shiny-shimmer var(--shiny-cta-duration) linear infinite,
+    shiny-shimmer calc(var(--shiny-cta-duration) / 0.4) reverse paused;
+  animation-composition: add;
+}
+
+.shiny-cta > span {
+  z-index: 1;
+}
+
+.shiny-cta > span::before {
+  --size: calc(100% + 1rem);
+  width: var(--size);
+  height: var(--size);
+  box-shadow: inset 0 -1ex 2rem 4px var(--shiny-cta-highlight);
+  opacity: 0;
+  transition: opacity var(--shiny-cta-transition);
+  animation: calc(var(--shiny-cta-duration) * 1.5) shiny-breathe linear infinite;
+}
+
+.shiny-cta:is(:hover, :focus-visible) {
+  --gradient-percent: 20%;
+  --gradient-angle-offset: 95deg;
+  --gradient-shine: var(--shiny-cta-highlight-subtle);
+}
+
+.shiny-cta:is(:hover, :focus-visible),
+.shiny-cta:is(:hover, :focus-visible)::before,
+.shiny-cta:is(:hover, :focus-visible)::after {
+  animation-play-state: running;
+}
+
+.shiny-cta:is(:hover, :focus-visible) > span::before {
+  opacity: 1;
+}
+
+@keyframes shiny-gradient-angle {
+  to {
+    --gradient-angle: 360deg;
+  }
+}
+
+@keyframes shiny-shimmer {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes shiny-breathe {
+  from, to {
+    scale: 1;
+  }
+  50% {
+    scale: 1.2;
+  }
+}
