@@ -26,13 +26,18 @@ export default function VideoBackground() {
         preload="auto"
         poster="/video/hero-poster.jpg"
       >
-        {/* UNE seule source, en H.264/MP4.
-            J'avais ajoute une version WebM/VP9 en premiere source pour gagner
-            300 Ko. A retirer : le support de VP9 sur iOS depend de l'appareil et
-            de la version, et Safari peut annoncer savoir le lire puis n'afficher
-            qu'un cadre noir. Trois cents kilo-octets ne valent pas un hero vide
-            sur iPhone. Le MP4 720p reste deux fois et demie plus leger que la
-            source d'origine (1,6 Mo contre 4 Mo en 1080p). */}
+        {/* UNE seule source, en H.264/MP4 1080p — le fichier d'origine.
+            Deux tentatives d'optimisation ont ete annulees, dans cet ordre :
+            une version WebM/VP9 en premiere source (le support de VP9 sur iOS
+            depend de l'appareil, Safari peut annoncer savoir le lire puis
+            n'afficher qu'un cadre noir), puis une reduction en 720p CRF 30 qui
+            a rendu le TEXTE INCRUSTE visiblement flou — le defaut le plus voyant
+            possible sur une video dont le texte est le message.
+            Compare a egalite : l'original est net, le 720p CRF 30 est mou, et un
+            1080p CRF 26 serait PLUS LOURD que l'original pour un rendu inferieur.
+            La source etait deja bien compressee (4 Mo pour 40 s en 1080p, ~790
+            kbps) et elle demarre en lecture progressive (moov avant mdat). Il n'y
+            avait rien a gagner. */}
         <source src="/video/hero.mp4" type="video/mp4" />
       </video>
 
