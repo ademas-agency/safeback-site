@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Raccourcis de lancement propres a une machine (chemins en dur, nom d'utilisateur).
+start-dev.cmd
+.claude/
