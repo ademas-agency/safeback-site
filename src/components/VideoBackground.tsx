@@ -15,16 +15,16 @@ export default function VideoBackground() {
         loop
         muted
         playsInline
-        // `metadata` et non `auto` : le fond est decoratif, il ne doit pas se
-        // telecharger en entier avant le reste de la page. L'affiche couvre
-        // l'attente.
-        preload="metadata"
+        preload="auto"
         poster="/video/hero-poster.jpg"
       >
-        {/* WebM d'abord : 1,3 Mo contre 1,6 Mo pour le MP4, meme rendu. Les
-            navigateurs qui ne le lisent pas tombent sur le MP4. La source
-            d'origine pesait 4 Mo en 1080p pour un simple fond. */}
-        <source src="/video/hero.webm" type="video/webm" />
+        {/* UNE seule source, en H.264/MP4.
+            J'avais ajoute une version WebM/VP9 en premiere source pour gagner
+            300 Ko. A retirer : le support de VP9 sur iOS depend de l'appareil et
+            de la version, et Safari peut annoncer savoir le lire puis n'afficher
+            qu'un cadre noir. Trois cents kilo-octets ne valent pas un hero vide
+            sur iPhone. Le MP4 720p reste deux fois et demie plus leger que la
+            source d'origine (1,6 Mo contre 4 Mo en 1080p). */}
         <source src="/video/hero.mp4" type="video/mp4" />
       </video>
 
