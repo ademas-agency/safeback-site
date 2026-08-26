@@ -20,6 +20,13 @@ export const metadata: Metadata = {
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
   alternates: { canonical: "/" },
+  // Meme raison que robots.ts : tant que les pages legales ne sont pas
+  // remplies, on ne veut pas etre indexe. La balise double le robots.txt,
+  // que certains moteurs ignorent.
+  robots:
+    process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true"
+      ? { index: true, follow: true }
+      : { index: false, follow: false },
   openGraph: {
     type: "website",
     locale: "fr_FR",
