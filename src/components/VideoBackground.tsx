@@ -10,7 +10,15 @@ export default function VideoBackground() {
   return (
     <div className="absolute inset-0 z-0 pointer-events-none">
       <video
-        className="absolute inset-0 h-full w-full object-cover brightness-[1.05]"
+        // `object-contain` jusqu'a lg, `object-cover` au-dela.
+        //
+        // La video est composee POUR LE PAYSAGE : texte a gauche, telephone a
+        // droite, en alternance. Recadree en 9/16 pour un ecran vertical, elle
+        // perdait les deux — on ne voyait qu'une tranche centrale ou le texte
+        // etait coupe en deux (« n toute tranquillit »). Aucun recadrage ne peut
+        // sauver une composition large : on montre donc l'image ENTIERE, comme un
+        // bloc 16/9 assume, et le fond de marque occupe le reste.
+        className="absolute inset-0 h-full w-full object-contain object-top lg:object-cover brightness-[1.05]"
         autoPlay
         loop
         muted

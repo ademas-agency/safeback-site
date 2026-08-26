@@ -43,7 +43,9 @@ export default function Home() {
         <div className="relative z-10">
 
         {/* ========== HERO ========== */}
-        <section className="relative min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-5rem)] flex items-end overflow-hidden">
+        {/* Hero moins haut sur mobile : la video s'y affiche en entier (16/9), il ne
+            sert a rien de reserver toute la hauteur d'ecran pour du vide. */}
+        <section className="relative min-h-[46vh] md:min-h-[62vh] lg:min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-5rem)] flex items-end overflow-hidden">
           {/* Fond vidéo, uniquement sur le hero */}
           <VideoBackground />
           <div className="w-full px-4 sm:px-6 lg:px-10 relative z-10 pb-5 pt-12">
@@ -55,11 +57,11 @@ export default function Home() {
               // Empile sur mobile, 3 colonnes a partir de sm. En grid-cols-3 sur un
               // telephone, les trois blocs se battaient pour 130 px chacun : slogan
               // illisible, boutons superposes, « 100% gratuit » coupe.
-              className="flex flex-col items-center gap-4 text-center w-full sm:grid sm:grid-cols-3 sm:items-center sm:gap-3 sm:text-left"
+              className="flex flex-col items-center gap-4 text-center w-full lg:grid lg:grid-cols-3 lg:items-center lg:gap-3 lg:text-left"
             >
               {/* Slogan à gauche */}
-              <div className="flex justify-center sm:justify-start">
-                <h1 className="text-sm sm:text-[11px] lg:text-sm font-bold leading-tight [text-shadow:0_2px_20px_rgba(0,0,0,0.6)]">
+              <div className="flex justify-center lg:justify-start">
+                <h1 className="text-sm lg:text-[13px] xl:text-sm font-bold leading-tight [text-shadow:0_2px_20px_rgba(0,0,0,0.6)]">
                   <span className="text-white">Sortez l&apos;esprit léger, </span>
                   <span className="gradient-text">veillez sur ceux que vous aimez</span>
                 </h1>
@@ -83,7 +85,7 @@ export default function Home() {
               </div>
 
               {/* 100% gratuit à droite */}
-              <div className="flex justify-center sm:justify-end">
+              <div className="flex justify-center lg:justify-end">
                 <span className="text-base sm:text-lg lg:text-xl font-bold text-white whitespace-nowrap [text-shadow:0_2px_20px_rgba(0,0,0,0.6)]">
                   100% gratuit
                 </span>
