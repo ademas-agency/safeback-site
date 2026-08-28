@@ -43,9 +43,9 @@ export default function Home() {
         <div className="relative z-10">
 
         {/* ========== HERO ========== */}
-        {/* Hero moins haut sur mobile : la video s'y affiche en entier (16/9), il ne
-            sert a rien de reserver toute la hauteur d'ecran pour du vide. */}
-        <section className="relative min-h-[46vh] md:min-h-[62vh] lg:min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-5rem)] flex items-end overflow-hidden">
+        {/* Pleine hauteur partout : chaque orientation a desormais son propre montage,
+            la video remplit donc le cadre sans etre rognee. */}
+        <section className="relative min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-5rem)] lg:min-h-[calc(100vh-5rem)] flex items-end overflow-hidden">
           {/* Fond vidéo, uniquement sur le hero */}
           <VideoBackground />
           <div className="w-full px-4 sm:px-6 lg:px-10 relative z-10 pb-5 pt-12">
