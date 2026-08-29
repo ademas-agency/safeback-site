@@ -12,6 +12,8 @@ import { NextResponse } from "next/server";
  *
  *   RESEND_API_KEY   clé d'API Resend (resend.com, gratuit jusqu'à 3 000 envois/mois)
  *   CONTACT_TO       adresse qui reçoit les messages
+ *   CONTACT_FROM     adresse expéditrice — DOIT être sur un domaine vérifié dans
+ *                    Resend, sinon l'envoi est refusé
  *
  * TANT QU'ELLES SONT ABSENTES, la route répond 503 et le formulaire affiche une
  * erreur honnête invitant à écrire directement. C'est délibéré : mieux vaut dire
@@ -44,6 +46,10 @@ export async function POST(req: Request) {
 
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_TO;
+  // L'expéditeur doit appartenir à un domaine vérifié dans Resend. Il était codé
+  // en dur sur « safeback.fr » — sans tiret — qui n'est PAS notre domaine (il
+  // appartient à un tiers). Resend aurait refusé chaque envoi.
+  const from = process.env.CONTACT_FROM || "SafeBack <contact@safe-back.com>";
   if (!apiKey || !to) {
     console.error("Formulaire : RESEND_API_KEY ou CONTACT_TO absent — rien n'a été envoyé.");
     return NextResponse.json(
@@ -67,7 +73,7 @@ export async function POST(req: Request) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "SafeBack <site@safeback.fr>",
+        from,
         to: [to],
         reply_to: email,
         subject: `[Site] ${sujet}`,
