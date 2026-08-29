@@ -39,21 +39,6 @@ const plans = [
     ],
     highlight: true,
   },
-  {
-    name: "Famille",
-    price: "6,99€",
-    period: "/mois",
-    description: "Protégez toute votre famille avec un seul abonnement.",
-    features: [
-      "Tout le plan Premium",
-      "Jusqu'à 5 membres",
-      "Tableau de bord famille",
-      "Alertes partagées entre membres",
-      "Support prioritaire",
-      "Statistiques familiales",
-    ],
-    highlight: false,
-  },
 ];
 
 export default function OffresPage() {

@@ -315,7 +315,9 @@ export default function ProduitPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          {/* Deux formules : grille a deux colonnes, centree. En md:grid-cols-3
+             les cartes restaient collees a gauche avec un trou a droite. */}
+          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             {[
               {
                 name: "Gratuit",
@@ -342,19 +344,6 @@ export default function ProduitPage() {
                   "Conservation pendant l'abonnement",
                 ],
                 highlight: true,
-              },
-              {
-                name: "Famille",
-                price: "6,99€",
-                period: "/mois",
-                features: [
-                  "Tout le plan Premium",
-                  "Jusqu'à 5 membres",
-                  "Tableau de bord famille",
-                  "Alertes partagées",
-                  "Support prioritaire",
-                ],
-                highlight: false,
               },
             ].map((plan, i) => (
               <motion.div
