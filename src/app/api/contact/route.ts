@@ -49,7 +49,11 @@ export async function POST(req: Request) {
   // L'expéditeur doit appartenir à un domaine vérifié dans Resend. Il était codé
   // en dur sur « safeback.fr » — sans tiret — qui n'est PAS notre domaine (il
   // appartient à un tiers). Resend aurait refusé chaque envoi.
-  const from = process.env.CONTACT_FROM || "SafeBack <contact@safe-back.com>";
+  //
+  // On envoie depuis `safe-back.fr`, le domaine principal du site : un message
+  // dont l'expéditeur est sur un autre domaine que celui qu'on vient de visiter
+  // se lit comme suspect, et pèse sur la délivrabilité.
+  const from = process.env.CONTACT_FROM || "SafeBack <contact@safe-back.fr>";
   if (!apiKey || !to) {
     console.error("Formulaire : RESEND_API_KEY ou CONTACT_TO absent — rien n'a été envoyé.");
     return NextResponse.json(
