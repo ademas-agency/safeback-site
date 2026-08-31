@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { EDITEUR, SIRET, ADRESSE, CONTACT_EMAIL, DPO, AGE_MINIMUM, DATE_MAJ } from "@/lib/legal";
 
 export const metadata = {
   title: "Politique de confidentialité — Safe Back",
@@ -34,7 +35,7 @@ export default function ConfidentialitePage() {
           Politique de confidentialité
         </h1>
         <p className="text-gray-500 mb-8">Safe Back</p>
-        <p className="text-sm text-gray-400 mb-12">Dernière mise à jour : [date de publication]</p>
+        <p className="text-sm text-gray-400 mb-12">Dernière mise à jour : {DATE_MAJ}</p>
 
         <div className="prose prose-gray max-w-none space-y-8">
           <section>
@@ -43,19 +44,19 @@ export default function ConfidentialitePage() {
               <div className="grid sm:grid-cols-2 gap-4 text-sm">
                 <div>
                   <p className="text-gray-500">Éditeur</p>
-                  <p className="text-gray-900 font-medium">[raison sociale, forme juridique, n&deg; RCS]</p>
+                  <p className="text-gray-900 font-medium">{EDITEUR}<br />SIRET&nbsp;{SIRET}</p>
                 </div>
                 <div>
                   <p className="text-gray-500">Siège</p>
-                  <p className="text-gray-900 font-medium">[adresse postale]</p>
+                  <p className="text-gray-900 font-medium">{ADRESSE}</p>
                 </div>
                 <div>
                   <p className="text-gray-500">Contact</p>
-                  <p className="text-gray-900 font-medium">[adresse e-mail]</p>
+                  <p className="text-gray-900 font-medium"><a href={`mailto:${CONTACT_EMAIL}`} className="underline">{CONTACT_EMAIL}</a></p>
                 </div>
                 <div>
                   <p className="text-gray-500">Délégué à la protection des données</p>
-                  <p className="text-gray-900 font-medium">[DPO, ou &laquo; non désigné &raquo;]</p>
+                  <p className="text-gray-900 font-medium">{DPO}</p>
                 </div>
               </div>
             </div>
@@ -273,7 +274,7 @@ export default function ConfidentialitePage() {
               <li>introduire une réclamation auprès de la CNIL.</li>
             </ul>
             <p className="text-gray-600 leading-relaxed mt-4">
-              Pour exercer ces droits : [adresse e-mail]. Nous répondons sous un mois.
+              Pour exercer ces droits, écrivez à <a href={`mailto:${CONTACT_EMAIL}`} className="underline">{CONTACT_EMAIL}</a>. Nous répondons sous un mois.
             </p>
           </section>
 
@@ -337,7 +338,16 @@ export default function ConfidentialitePage() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-4">8. Mineurs</h2>
             <p className="text-gray-600 leading-relaxed">
-              [âge minimum retenu — à définir]
+              Safe Back est destinée aux personnes de {AGE_MINIMUM} ans et plus. En dessous de
+              cet âge, l&apos;inscription requiert l&apos;accord d&apos;un titulaire de l&apos;autorité
+              parentale, qui peut à tout moment demander l&apos;accès aux données du mineur,
+              leur rectification ou leur suppression en écrivant à{" "}
+              <a href={`mailto:${CONTACT_EMAIL}`} className="underline">{CONTACT_EMAIL}</a>.
+            </p>
+            <p className="text-gray-600 leading-relaxed mt-4">
+              Nous ne collectons pas sciemment de données concernant un enfant de moins de
+              {" "}{AGE_MINIMUM} ans sans cet accord. Si nous apprenons qu&apos;un compte a été créé dans
+              ces conditions, il est supprimé, ainsi que les données associées.
             </p>
           </section>
 

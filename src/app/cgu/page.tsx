@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { EDITEUR, SIRET, ADRESSE, CONTACT_EMAIL, DPO, AGE_MINIMUM, DATE_MAJ } from "@/lib/legal";
 
 export const metadata = {
   title: "Conditions générales d'utilisation — Safe Back",
@@ -34,13 +35,13 @@ export default function CGUPage() {
           Conditions générales d&apos;utilisation
         </h1>
         <p className="text-gray-500 mb-8">Safe Back</p>
-        <p className="text-sm text-gray-400 mb-12">Dernière mise à jour : [date de publication]</p>
+        <p className="text-sm text-gray-400 mb-12">Dernière mise à jour : {DATE_MAJ}</p>
 
         <div className="prose prose-gray max-w-none space-y-8">
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-4">1. Objet</h2>
             <p className="text-gray-600 leading-relaxed">
-              Les présentes conditions régissent l&apos;utilisation de l&apos;application Safe Back, éditée par [raison sociale], [adresse], ci-après &laquo; l&apos;éditeur &raquo;. Installer ou utiliser l&apos;application vaut acceptation des présentes conditions.
+              Les présentes conditions régissent l&apos;utilisation de l&apos;application Safe Back, éditée par {EDITEUR}, SIRET&nbsp;{SIRET}, dont le siège est situé {ADRESSE}, ci-après &laquo; l&apos;éditeur &raquo;. Installer ou utiliser l&apos;application vaut acceptation des présentes conditions.
             </p>
           </section>
 
