@@ -57,6 +57,21 @@ Une fois le site déployé, faire pointer le domaine vers le déploiement via la
 DNS de l'hébergeur (sur Vercel/Netlify : ajouter le domaine dans le tableau de bord, puis
 créer les enregistrements DNS indiqués — généralement un `CNAME` ou un `A`).
 
+### Liens d'invitation de l'app (`/i/<code>`)
+
+Deux éléments du site servent à l'app iOS, à ne pas retirer :
+
+- `/.well-known/apple-app-site-association` — fichier lu par Apple pour ouvrir
+  `https://safe-back.fr/i/<code>` directement dans l'app quand elle est installée.
+  Il doit rester servi en HTTPS, **sans redirection** (une 301 vers `www` casse tout),
+  avec `Content-Type: application/json` et sans authentification. Vérification :
+  `curl -sI https://safe-back.fr/.well-known/apple-app-site-association`
+- `/i/<code>` — page vue uniquement par ceux qui n'ont pas l'app. Son bouton
+  d'installation pointe vers `NEXT_PUBLIC_APP_DOWNLOAD_URL` (lien TestFlight pour
+  l'instant, lien App Store à la publication). À définir chez l'hébergeur, puis
+  redéployer. Ne jamais brancher d'outil d'analyse sur cette page : le code de
+  l'URL permet de devenir le protecteur de quelqu'un.
+
 ---
 
 ## 4. Structure du projet

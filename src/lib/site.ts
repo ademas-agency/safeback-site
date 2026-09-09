@@ -16,3 +16,17 @@ export const SITE_NAME = "SafeBack";
 
 export const SITE_DESCRIPTION =
   "SafeBack est une application de sécurité personnelle. Partage de trajet en temps réel, alerte d'urgence en un geste, carte des lieux sûrs.";
+
+/**
+ * Lien de téléchargement de l'app, utilisé par la page d'invitation `/i/<code>`.
+ *
+ * Aujourd'hui un lien TestFlight (« https://testflight.apple.com/join/… ») ;
+ * à la publication, le remplacer par le lien App Store. Une seule valeur à
+ * changer chez l'hébergeur : `NEXT_PUBLIC_APP_DOWNLOAD_URL`.
+ *
+ * Sans cette variable, le bouton renvoie vers la page Télécharger du site,
+ * pour ne jamais laisser un bouton mort face à quelqu'un qui vient d'être
+ * invité.
+ */
+export const APP_DOWNLOAD_URL =
+  process.env.NEXT_PUBLIC_APP_DOWNLOAD_URL?.trim() || "/telecharger";
