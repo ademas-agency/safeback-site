@@ -72,6 +72,17 @@ Deux éléments du site servent à l'app iOS, à ne pas retirer :
   l'instant, lien App Store à la publication). À définir chez l'hébergeur, puis
   redéployer. Ne jamais brancher d'outil d'analyse sur cette page : le code de
   l'URL permet de devenir le protecteur de quelqu'un.
+- `/a/<id>` — page du lien d'alerte, celui que porte le SMS envoyé aux proches à
+  la place d'un lien Google Maps. Vue par ceux qui n'ont pas l'app. Elle interroge
+  la fonction publique `suivre_alerte` du projet Supabase toutes les 15 secondes
+  et montre la position sur une carte OpenStreetMap tant que l'alerte est ouverte,
+  avec deux actions : appeler le 17, ouvrir l'itinéraire dans l'app de cartes du
+  téléphone. Une fois l'alerte close, la page dit qu'il n'y a plus de danger et ne
+  montre plus aucune position. Le projet Supabase et sa clé publique sont dans
+  `src/lib/supabase.ts`, remplaçables par `NEXT_PUBLIC_SUPABASE_URL` et
+  `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. Le lien n'est écrit dans le SMS que si le
+  secret `ALERT_LINK_BASE=https://safe-back.fr` est posé sur le projet Supabase ;
+  sans lui, le SMS retombe sur Google Maps.
 
 ---
 
