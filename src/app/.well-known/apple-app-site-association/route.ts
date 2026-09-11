@@ -1,7 +1,7 @@
 /**
  * Fichier `apple-app-site-association` (AASA) — ce qui permet à iOS d'ouvrir
- * `https://safe-back.fr/i/<code>` directement dans l'app SafeBack quand elle
- * est installée, au lieu d'afficher la page web.
+ * `https://safe-back.fr/i/<code>` et `https://safe-back.fr/a/<id>` directement
+ * dans l'app SafeBack quand elle est installée, au lieu d'afficher la page web.
  *
  * Servi par une route plutôt que déposé dans `public/` : Apple exige un
  * `Content-Type: application/json` sur une URL SANS extension `.json`, et un
@@ -29,9 +29,18 @@ const AASA = {
       {
         appIDs: [APP_ID],
         components: [
-          // Seuls les liens d'invitation ouvrent l'app. Le reste du site
-          // (accueil, offres, CGU…) doit continuer à s'afficher dans Safari.
-          { "/": "/i/*", comment: "Liens d'invitation : /i/<code>" },
+          // Seuls ces deux chemins ouvrent l'app. Le reste du site (accueil,
+          // offres, CGU…) doit continuer à s'afficher dans Safari.
+          {
+            "/": "/i/*",
+            comment:
+              "Lien d'invitation personnel : ouvre l'app si elle est installée.",
+          },
+          {
+            "/": "/a/*",
+            comment:
+              "Lien d'une alerte : ouvre l'app sur la personne en difficulté.",
+          },
         ],
       },
     ],

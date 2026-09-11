@@ -62,7 +62,8 @@ créer les enregistrements DNS indiqués — généralement un `CNAME` ou un `A`
 Deux éléments du site servent à l'app iOS, à ne pas retirer :
 
 - `/.well-known/apple-app-site-association` — fichier lu par Apple pour ouvrir
-  `https://safe-back.fr/i/<code>` directement dans l'app quand elle est installée.
+  `https://safe-back.fr/i/<code>` (invitation) et `https://safe-back.fr/a/<id>`
+  (alerte) directement dans l'app quand elle est installée.
   Il doit rester servi en HTTPS, **sans redirection** (une 301 vers `www` casse tout),
   avec `Content-Type: application/json` et sans authentification. Vérification :
   `curl -sI https://safe-back.fr/.well-known/apple-app-site-association`
