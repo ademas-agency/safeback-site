@@ -67,6 +67,17 @@ Deux éléments du site servent à l'app iOS, à ne pas retirer :
   Il doit rester servi en HTTPS, **sans redirection** (une 301 vers `www` casse tout),
   avec `Content-Type: application/json` et sans authentification. Vérification :
   `curl -sI https://safe-back.fr/.well-known/apple-app-site-association`
+- `/.well-known/assetlinks.json` — le pendant Android : fichier lu par Android
+  pour ouvrir `https://safe-back.fr/i/<code>` dans l'app. Servi en `application/json`,
+  l'URL garde son `.json`. Il doit être servi **aussi sur `www.safe-back.fr`**, sans
+  redirection : l'app Android vérifie les deux hôtes séparément, et l'app iOS déclare
+  `www` également. Le fichier porte les empreintes des clés autorisées ; celle de la
+  clé de signature de Google Play est à ajouter avant la mise sur le store (voir les
+  commentaires dans `src/app/.well-known/assetlinks.json/route.ts`).
+- **`www.safe-back.fr`** doit être ajouté chez Vercel comme domaine simple du projet,
+  **sans** l'option de redirection vers `safe-back.fr`, avec l'entrée DNS
+  correspondante. C'est le site lui-même (`next.config.ts`) qui redirige `www` vers
+  `safe-back.fr` pour tout, sauf `/.well-known/*`.
 - `/i/<code>` — page vue uniquement par ceux qui n'ont pas l'app. Son bouton
   d'installation pointe vers `NEXT_PUBLIC_APP_DOWNLOAD_URL` (lien TestFlight pour
   l'instant, lien App Store à la publication). À définir chez l'hébergeur, puis
