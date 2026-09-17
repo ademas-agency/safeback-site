@@ -36,9 +36,10 @@ const SHA256_FINGERPRINTS = [
   // APK et bundles installés hors store, pour tester les invitations.
   "BF:22:9B:DC:7B:BE:98:BF:8F:A5:4A:6A:6E:8B:AC:BD:7C:BC:25:F3:E3:53:AD:48:E5:2D:E7:D2:4E:0A:2C:64",
   // Clé de SIGNATURE DE GOOGLE PLAY : c'est elle que voient les téléphones qui
-  // installent depuis le store, Play resignant le binaire distribué. À lire
-  // dans la Play Console (Tester et publier → Configuration → Signature de
-  // l'application) et à ajouter ici AVANT la mise sur le store.
+  // installent depuis le store, Play resignant le binaire distribué. Lue dans
+  // la Play Console (Tester et publier → Configuration → Signature de
+  // l'application), fournie le 17/09/2026.
+  "92:B6:94:5C:D9:12:4F:C6:E0:38:DB:41:60:2D:C6:F3:33:14:9F:D1:01:A1:F4:E1:FC:1C:06:A2:42:83:EA:BC",
 ];
 
 const ASSETLINKS = [

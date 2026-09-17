@@ -71,9 +71,8 @@ Deux éléments du site servent à l'app iOS, à ne pas retirer :
   pour ouvrir `https://safe-back.fr/i/<code>` dans l'app. Servi en `application/json`,
   l'URL garde son `.json`. Il doit être servi **aussi sur `www.safe-back.fr`**, sans
   redirection : l'app Android vérifie les deux hôtes séparément, et l'app iOS déclare
-  `www` également. Le fichier porte les empreintes des clés autorisées ; celle de la
-  clé de signature de Google Play est à ajouter avant la mise sur le store (voir les
-  commentaires dans `src/app/.well-known/assetlinks.json/route.ts`).
+  `www` également. Le fichier porte les empreintes des deux clés autorisées, clé d'upload et
+  clé de signature de Google Play (voir `src/app/.well-known/assetlinks.json/route.ts`).
 - **`www.safe-back.fr`** doit être ajouté chez Vercel comme domaine simple du projet,
   **sans** l'option de redirection vers `safe-back.fr`, avec l'entrée DNS
   correspondante. C'est le site lui-même (`next.config.ts`) qui redirige `www` vers
