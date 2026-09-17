@@ -40,6 +40,11 @@ const SHA256_FINGERPRINTS = [
   // la Play Console (Tester et publier → Configuration → Signature de
   // l'application), fournie le 17/09/2026.
   "92:B6:94:5C:D9:12:4F:C6:E0:38:DB:41:60:2D:C6:F3:33:14:9F:D1:01:A1:F4:E1:FC:1C:06:A2:42:83:EA:BC",
+  // Troisième clé demandée par Thomas (côté app) le 17/09/2026. Ce n'est ni
+  // l'upload, ni Play, ni la clé de débogage du poste web : lui demander
+  // laquelle c'est, et la retirer si c'est une clé de débogage (mot de passe
+  // public), comme le recommande le README de l'app.
+  "D8:42:9B:35:64:12:86:F7:07:F1:AA:5F:C8:3F:C8:1B:AA:E9:03:9F:DB:AD:88:F2:D4:65:94:6D:14:77:7F:FF",
 ];
 
 const ASSETLINKS = [
