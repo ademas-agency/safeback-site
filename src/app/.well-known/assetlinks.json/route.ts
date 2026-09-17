@@ -17,12 +17,14 @@
  * Vérification une fois en ligne :
  *   curl -s https://safe-back.fr/.well-known/assetlinks.json
  *   curl -s https://www.safe-back.fr/.well-known/assetlinks.json
- *   adb shell pm verify-app-links --re-verify com.safeback.app
- *   adb shell pm get-app-links com.safeback.app   → « verified » pour les deux hôtes
+ *   adb shell pm verify-app-links --re-verify fr.safeback.app
+ *   adb shell pm get-app-links fr.safeback.app   → « verified » pour les deux hôtes
  */
 
-// `applicationId` de l'app, tel que déclaré dans android/app/build.gradle.kts.
-const PACKAGE = "com.safeback.app";
+// `applicationId` de l'app Android. Doit correspondre EXACTEMENT à celui de
+// android/app/build.gradle.kts : Android compare le paquet installé à celui-ci,
+// et n'ouvre les liens dans l'app qu'en cas d'égalité stricte.
+const PACKAGE = "fr.safeback.app";
 
 /**
  * Empreintes SHA-256 des certificats autorisés à revendiquer le domaine.
