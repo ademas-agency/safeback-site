@@ -55,9 +55,10 @@ export function GET() {
     status: 200,
     headers: {
       "Content-Type": "application/json",
-      // Une heure : assez court pour qu'une correction se propage vite, assez
-      // long pour ne pas solliciter le serveur à chaque installation.
-      "Cache-Control": "public, max-age=3600",
+      // Cinq minutes : ces fichiers changent au fil des clés et des chemins, et
+      // un cache intermédiaire d'une heure a déjà fait voir un fichier périmé.
+      // Apple et Google gardent de toute façon leur propre copie.
+      "Cache-Control": "public, max-age=300, must-revalidate",
     },
   });
 }

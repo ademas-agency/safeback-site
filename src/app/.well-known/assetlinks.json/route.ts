@@ -66,7 +66,7 @@ export function GET() {
     status: 200,
     headers: {
       "Content-Type": "application/json",
-      "Cache-Control": "public, max-age=3600",
+      "Cache-Control": "public, max-age=300, must-revalidate",
     },
   });
 }
