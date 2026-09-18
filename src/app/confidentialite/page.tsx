@@ -268,7 +268,7 @@ export default function ConfidentialitePage() {
             <ul className="list-disc pl-6 space-y-2 text-gray-600">
               <li>accéder à vos données et en demander une copie ;</li>
               <li>les corriger depuis votre profil ;</li>
-              <li>supprimer votre compte depuis l&apos;application, ou par e-mail si vous n&apos;y avez plus accès (la suppression efface votre compte, vos contacts, vos alertes, votre historique de position et vos enregistrements) : voir la page <Link href="/suppression-compte" className="underline">Supprimer votre compte</Link> ;</li>
+              <li>supprimer votre compte depuis l&apos;application, ou par e-mail si vous n&apos;y avez plus accès (la suppression efface votre compte, vos contacts, vos alertes, votre historique de position et vos enregistrements) : voir la page <Link href="/suppression" className="underline">Supprimer vos données ou votre compte</Link> ;</li>
               <li>retirer votre consentement au partage de position ou à la communauté, sans perdre l&apos;accès à l&apos;alerte ;</li>
               <li>vous opposer à un traitement ou demander sa limitation ;</li>
               <li>introduire une réclamation auprès de la CNIL.</li>

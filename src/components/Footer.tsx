@@ -38,9 +38,9 @@ const companyLinks = [
   { href: "/contact", label: "Contact" },
   { href: "/cgu", label: "Mentions légales" },
   { href: "/confidentialite", label: "Confidentialité" },
-  // Exigé par Google Play : la page de suppression de compte doit être
-  // atteignable depuis le site, et son URL est inscrite dans la fiche Play.
-  { href: "/suppression-compte", label: "Supprimer mon compte" },
+  // Exigé par Google Play : la page de suppression (compte et données) doit
+  // être atteignable depuis le site, et son URL est inscrite dans la fiche Play.
+  { href: "/suppression", label: "Supprimer mes données ou mon compte" },
 ];
 
 const socialLinks = [

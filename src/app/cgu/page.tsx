@@ -78,7 +78,7 @@ export default function CGUPage() {
               L&apos;inscription se fait par numéro de téléphone, validé par un code reçu par SMS. Vous vous engagez à fournir un numéro dont vous êtes titulaire et à ne pas usurper l&apos;identité d&apos;un tiers.
             </p>
             <p className="text-gray-600 leading-relaxed">
-              Vous êtes responsable de l&apos;usage fait depuis votre compte. Vous pouvez le supprimer à tout moment depuis votre profil, ou par e-mail si vous n&apos;avez plus accès à l&apos;application (voir <Link href="/suppression-compte" className="underline">Supprimer votre compte</Link>) ; la suppression est définitive.
+              Vous êtes responsable de l&apos;usage fait depuis votre compte. Vous pouvez le supprimer à tout moment depuis votre profil, ou par e-mail si vous n&apos;avez plus accès à l&apos;application (voir <Link href="/suppression#compte" className="underline">Supprimer votre compte</Link>) ; la suppression est définitive.
             </p>
           </section>
 

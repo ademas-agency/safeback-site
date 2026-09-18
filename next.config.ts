@@ -3,6 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async redirects() {
     return [
+      // L'ancienne adresse de la page de suppression, publiée quelques heures
+      // le 18/09/2026 : la nouvelle couvre le compte ET les données.
+      { source: "/suppression-compte", destination: "/suppression", permanent: true },
       // `www.safe-back.fr` → `safe-back.fr`, pour que le site n'existe qu'à une
       // adresse aux yeux des moteurs de recherche.
       //

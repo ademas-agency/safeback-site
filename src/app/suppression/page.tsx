@@ -4,26 +4,33 @@ import Image from "next/image";
 import { ADRESSE, CONTACT_EMAIL, DATE_MAJ, EDITEUR } from "@/lib/legal";
 
 /**
- * Page « Supprimer votre compte » : `https://safe-back.fr/suppression-compte`.
+ * Page « Supprimer vos données ou votre compte » : `https://safe-back.fr/suppression`.
  *
- * Exigée par Google Play pour toute application qui permet de créer un compte :
- * publique, atteignable sans connexion, et son URL est enregistrée dans la
- * fiche Play — donc STABLE, ne pas la renommer. Apple la demande aussi dans la
- * fiche de confidentialité. Reliée depuis le pied de page, à côté des CGU et de
- * la politique de confidentialité.
+ * UNE page pour les DEUX URL que Google Play réclame — Google l'autorise
+ * explicitement, à condition que la page traite les deux sujets :
+ *   • « Suppression de compte »  (Contenu de l'application) → /suppression#compte
+ *   • « Suppression des données » (Sécurité des données)   → /suppression#donnees
+ * D'où le nom de la page, qui ne parle pas que du compte : une URL en
+ * « suppression-compte » dans le champ « suppression des données » se lirait
+ * comme une erreur, et c'est un relecteur humain qui la lit.
  *
- * Le texte est celui rédigé côté app (docs/page-suppression-compte.md, Thomas,
- * 18/09/2026). Ce qu'il annonce est ce que fait réellement l'edge function
- * `delete-account` du dépôt de l'app — y compris la photo de profil, dont la
- * suppression du fichier dépend d'un correctif déployé (version 11 de la
- * fonction). Si la fonction change, cette page change avec.
+ * Les deux ancres `compte` et `donnees` sont des `id` sur les titres de
+ * section : chaque champ Play pointe vers la section qui le concerne. Ne pas
+ * les renommer, ni l'URL — elle est inscrite dans la fiche Play.
+ *
+ * Publique, atteignable sans connexion, reliée depuis le pied de page. Texte
+ * rédigé côté app (docs/page-suppression.md, 18/09/2026). Ce qu'il annonce est
+ * ce que fait réellement l'edge function `delete-account` du dépôt de l'app —
+ * y compris la photo de profil, dont la suppression du fichier dépend d'un
+ * correctif déployé (version 11 de la fonction). Si la fonction change, cette
+ * page change avec.
  */
 
 export const metadata: Metadata = {
-  title: "Supprimer votre compte",
+  title: "Supprimer vos données ou votre compte",
   description:
-    "Comment supprimer votre compte Safe Back et toutes vos données, depuis l'application ou par e-mail si vous n'y avez plus accès.",
-  alternates: { canonical: "/suppression-compte" },
+    "Comment supprimer votre compte Safe Back, ou seulement une partie de vos données, depuis l'application ou par e-mail si vous n'y avez plus accès.",
+  alternates: { canonical: "/suppression" },
 };
 
 const OBJET = "Suppression de mon compte Safe Back";
@@ -72,11 +79,37 @@ const HORS_DE_PORTEE = [
   },
 ];
 
-function Titre({ children }: { children: React.ReactNode }) {
-  return <h2 className="text-xl font-bold text-gray-900 mb-4">{children}</h2>;
+const PARTIEL = [
+  {
+    quoi: "un enregistrement",
+    ou: "Profil → Mes enregistrements → Supprimer.",
+    note: "Il part de votre téléphone et de nos serveurs.",
+  },
+  { quoi: "un trajet favori", ou: "Profil → Trajets favoris → Retirer." },
+  {
+    quoi: "un proche",
+    ou: "sa fiche, ou Profil → Mes proches.",
+    note: "Vous pouvez aussi ne lui couper que les alertes, ou que la position, et garder le lien.",
+  },
+  { quoi: "l'adresse de votre domicile", ou: "Profil → Adresse de la maison → Supprimer." },
+  { quoi: "le mot d'alerte", ou: "Profil → Mot d'alerte → Supprimer le mot d'alerte." },
+  {
+    quoi: "votre présence dans la communauté",
+    ou: "coupez la communauté dans votre profil,",
+    note: "et votre position en est retirée.",
+  },
+];
+
+/** Titre de section ; `id` en fait une ancre (#compte, #donnees) pour la fiche Play. */
+function Titre({ id, children }: { id?: string; children: React.ReactNode }) {
+  return (
+    <h2 id={id} className="text-xl font-bold text-gray-900 mb-4 scroll-mt-6">
+      {children}
+    </h2>
+  );
 }
 
-export default function SuppressionComptePage() {
+export default function SuppressionPage() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <header className="border-b border-gray-200">
@@ -95,15 +128,15 @@ export default function SuppressionComptePage() {
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-          Supprimer votre compte Safe Back
+          Supprimer vos données ou votre compte
         </h1>
         <p className="text-gray-500 text-lg leading-relaxed mb-10">
-          Votre compte vous appartient. Vous pouvez le supprimer à tout moment, sans avoir à le
-          justifier, et sans nous écrire.
+          Vos données vous appartiennent. Vous pouvez en effacer une partie, ou supprimer votre
+          compte entièrement, à tout moment, sans avoir à le justifier et sans nous écrire.
         </p>
 
         <section className="rounded-2xl border border-gray-200 bg-gray-50 p-6 sm:p-8 mb-6">
-          <Titre>Depuis l&apos;application</Titre>
+          <Titre id="compte">Supprimer votre compte, depuis l&apos;application</Titre>
           <p className="text-gray-700 leading-relaxed mb-4">
             C&apos;est le chemin le plus rapide, et la suppression est immédiate.
           </p>
@@ -127,7 +160,7 @@ export default function SuppressionComptePage() {
         </section>
 
         <section className="rounded-2xl border border-gray-200 bg-gray-50 p-6 sm:p-8 mb-10">
-          <Titre>Sans l&apos;application</Titre>
+          <Titre>Supprimer votre compte, sans l&apos;application</Titre>
           <p className="text-gray-700 leading-relaxed">
             Si vous n&apos;avez plus accès à votre téléphone ou à l&apos;application, écrivez à
           </p>
@@ -182,6 +215,30 @@ export default function SuppressionComptePage() {
             <p className="text-gray-600 leading-relaxed mt-4">
               Enfin, les vidéos encore présentes <strong>sur votre téléphone</strong> ne sont pas
               chez nous : elles partent quand vous désinstallez l&apos;application.
+            </p>
+          </section>
+
+          <section className="rounded-2xl border border-gray-200 bg-gray-50 p-6 sm:p-8">
+            <Titre id="donnees">Supprimer une partie de vos données, sans supprimer votre compte</Titre>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Vous n&apos;êtes pas obligé de tout effacer pour effacer quelque chose. Depuis
+              l&apos;application, à tout moment :
+            </p>
+            <ul className="list-disc pl-6 space-y-3 text-gray-700">
+              {PARTIEL.map((p) => (
+                <li key={p.quoi}>
+                  <strong className="text-gray-900">{p.quoi}</strong> : {p.ou}
+                  {p.note && <> {p.note}</>}
+                </li>
+              ))}
+            </ul>
+            <p className="text-gray-700 leading-relaxed mt-5">
+              Pour tout le reste, votre photo de profil, votre présentation, une alerte passée,
+              écrivez à{" "}
+              <a href={MAILTO} className="font-semibold text-gray-900 underline">
+                {CONTACT_EMAIL}
+              </a>{" "}
+              : nous supprimons ce que vous demandez, sans toucher au compte.
             </p>
           </section>
 
