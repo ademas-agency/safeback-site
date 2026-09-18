@@ -5,6 +5,7 @@ import { SITE_URL } from "@/lib/site";
 const ROUTES = [
   "", "/produit", "/offres", "/statistiques", "/partenaires",
   "/contact", "/telecharger", "/dispositif", "/cgu", "/confidentialite",
+  "/suppression-compte",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

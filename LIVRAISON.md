@@ -77,6 +77,11 @@ Deux éléments du site servent à l'app iOS, à ne pas retirer :
   **sans** l'option de redirection vers `safe-back.fr`, avec l'entrée DNS
   correspondante. C'est le site lui-même (`next.config.ts`) qui redirige `www` vers
   `safe-back.fr` pour tout, sauf `/.well-known/*`.
+- `/suppression-compte` — page « Supprimer votre compte », exigée par Google Play et
+  demandée par Apple : comment supprimer son compte depuis l'app, et par e-mail sans
+  l'app. Ce qu'elle annonce reflète l'edge function `delete-account` du dépôt de l'app :
+  si celle-ci change, la page change avec. L'adresse affichée est `CONTACT_EMAIL` de
+  `src/lib/legal.ts`.
 - `/i/<code>` — page vue uniquement par ceux qui n'ont pas l'app. Son bouton
   d'installation pointe vers `NEXT_PUBLIC_APP_DOWNLOAD_URL` (lien TestFlight pour
   l'instant, lien App Store à la publication). À définir chez l'hébergeur, puis
