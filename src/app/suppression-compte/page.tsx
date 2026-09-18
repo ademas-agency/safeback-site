@@ -1,68 +1,80 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { CONTACT_EMAIL, DATE_MAJ } from "@/lib/legal";
+import { ADRESSE, CONTACT_EMAIL, DATE_MAJ, EDITEUR } from "@/lib/legal";
 
 /**
  * Page « Supprimer votre compte » : `https://safe-back.fr/suppression-compte`.
  *
- * Google Play exige, pour toute app qui crée des comptes, une page web publique
- * qui explique comment supprimer son compte — y compris SANS l'application, pour
- * qui a perdu son téléphone ou désinstallé l'app. Apple la demande aussi dans
- * la fiche de confidentialité. Même logique que la page équivalente de
- * La Cachette (`public/legal/suppression-compte.html` dans la-cachette-front).
+ * Exigée par Google Play pour toute application qui permet de créer un compte :
+ * publique, atteignable sans connexion, et son URL est enregistrée dans la
+ * fiche Play — donc STABLE, ne pas la renommer. Apple la demande aussi dans la
+ * fiche de confidentialité. Reliée depuis le pied de page, à côté des CGU et de
+ * la politique de confidentialité.
  *
- * Ce que la page annonce est ce que fait réellement l'edge function
- * `delete-account` du dépôt de l'app : à garder alignés. Si la fonction change
- * (nouvelle table, nouvelle rétention), cette page change avec.
+ * Le texte est celui rédigé côté app (docs/page-suppression-compte.md, Thomas,
+ * 18/09/2026). Ce qu'il annonce est ce que fait réellement l'edge function
+ * `delete-account` du dépôt de l'app — y compris la photo de profil, dont la
+ * suppression du fichier dépend d'un correctif déployé (version 11 de la
+ * fonction). Si la fonction change, cette page change avec.
  */
 
 export const metadata: Metadata = {
   title: "Supprimer votre compte",
   description:
-    "Comment supprimer votre compte Safe Back et les données associées, depuis l'application ou par e-mail si vous n'y avez plus accès.",
+    "Comment supprimer votre compte Safe Back et toutes vos données, depuis l'application ou par e-mail si vous n'y avez plus accès.",
   alternates: { canonical: "/suppression-compte" },
 };
 
 const OBJET = "Suppression de mon compte Safe Back";
 const MAILTO = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(OBJET)}`;
 
-const DEPUIS_APP = [
-  <>Ouvrez l&apos;application Safe Back et connectez-vous.</>,
+const ETAPES = [
   <>
-    Touchez votre <strong>profil</strong>, depuis l&apos;écran d&apos;accueil.
+    Ouvrez Safe Back et touchez <strong>votre photo</strong>, en haut à droite de l&apos;accueil.
   </>,
   <>
-    Faites défiler jusqu&apos;en bas, jusqu&apos;à <strong>« Supprimer mon compte »</strong>.
+    Touchez <strong>l&apos;engrenage</strong>, en haut à droite de votre profil.
   </>,
-  <>Confirmez la suppression.</>,
+  <>
+    Tout en bas, touchez <strong>Supprimer mon compte</strong>.
+  </>,
+  <>Confirmez.</>,
 ];
 
 const SUPPRIME = [
-  "Votre compte et vos identifiants de connexion.",
-  "Votre prénom, votre nom, votre photo de profil et votre présentation.",
-  "Vos contacts de confiance et vos proches, dans les deux sens : vous disparaissez aussi de leur liste.",
-  "Vos alertes, l'historique de position qui les accompagne et votre dernière position connue.",
-  "Vos enregistrements audio et vidéo, fichiers compris.",
-  "Les invitations que vous avez envoyées.",
-  "Votre présence dans la communauté et votre adresse de domicile.",
+  "votre compte et votre numéro de téléphone ;",
+  "votre prénom, votre nom, votre photo de profil et votre présentation ;",
+  "l'adresse de votre domicile et vos trajets favoris ;",
+  "la liste de vos proches et les liens dans les deux sens, ceux que vous avez choisis et ceux qui vous ont choisi ;",
+  "vos alertes, leur date, leur position et le journal des personnes prévenues ;",
+  "vos enregistrements audio et vidéo, sur nos serveurs comme dans nos sauvegardes de fichiers ;",
+  "votre historique de position, votre dernière position connue et votre présence dans la communauté ;",
+  "les invitations que vous avez envoyées ;",
+  "les jetons qui permettaient de vous envoyer des notifications.",
 ];
 
-const CONSERVE = [
-  <>
-    Chez vos proches, la trace qu&apos;<strong>un</strong> proche a été prévenu de leurs alertes : votre
-    prénom y est remplacé par « Un proche ». Savoir combien de personnes ont été alertées garde
-    son sens sans vous nommer.
-  </>,
-  <>
-    Les données que la loi nous oblige à conserver, le temps strictement nécessaire.
-  </>,
-  <>
-    <strong>Votre abonnement</strong>, s&apos;il est en cours : il est géré par Apple ou Google, pas
-    par nous, et la suppression du compte n&apos;y met pas fin. Résiliez-le depuis les réglages
-    de votre compte Apple ou Google Play, sinon il continuera d&apos;être facturé.
-  </>,
+const HORS_DE_PORTEE = [
+  {
+    titre: "Les SMS déjà reçus.",
+    texte:
+      "Un message d'alerte parti chez un proche est chez lui ; nous ne pouvons pas le retirer de son téléphone.",
+  },
+  {
+    titre: "Ce que vous avez vous-même partagé.",
+    texte:
+      "Une vidéo que vous avez transmise à quelqu'un, ou enregistrée ailleurs, ne dépend plus de nous.",
+  },
+  {
+    titre: "Les journaux techniques de nos prestataires.",
+    texte:
+      "L'opérateur qui a acheminé un SMS et l'outil qui collecte les rapports de plantage conservent leurs propres journaux, selon leurs propres durées. Nous n'y avons pas accès et ne pouvons pas les accélérer.",
+  },
 ];
+
+function Titre({ children }: { children: React.ReactNode }) {
+  return <h2 className="text-xl font-bold text-gray-900 mb-4">{children}</h2>;
+}
 
 export default function SuppressionComptePage() {
   return (
@@ -85,15 +97,18 @@ export default function SuppressionComptePage() {
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
           Supprimer votre compte Safe Back
         </h1>
-        <p className="text-gray-500 text-lg mb-10">
-          Deux façons de procéder : directement dans l&apos;application, ou par e-mail si vous
-          n&apos;y avez plus accès.
+        <p className="text-gray-500 text-lg leading-relaxed mb-10">
+          Votre compte vous appartient. Vous pouvez le supprimer à tout moment, sans avoir à le
+          justifier, et sans nous écrire.
         </p>
 
         <section className="rounded-2xl border border-gray-200 bg-gray-50 p-6 sm:p-8 mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Depuis l&apos;application</h2>
+          <Titre>Depuis l&apos;application</Titre>
+          <p className="text-gray-700 leading-relaxed mb-4">
+            C&apos;est le chemin le plus rapide, et la suppression est immédiate.
+          </p>
           <ol className="space-y-3">
-            {DEPUIS_APP.map((etape, i) => (
+            {ETAPES.map((etape, i) => (
               <li key={i} className="flex gap-4 text-gray-700 leading-relaxed">
                 <span
                   aria-hidden
@@ -106,15 +121,15 @@ export default function SuppressionComptePage() {
             ))}
           </ol>
           <p className="text-gray-700 leading-relaxed mt-5">
-            La suppression est <strong>immédiate et irréversible</strong>. Elle se fait sur iPhone
-            comme sur Android, au même endroit.
+            C&apos;est fait. Rien ne reste en attente, il n&apos;y a pas de délai de rétractation, et
+            nous ne conservons pas de copie.
           </p>
         </section>
 
         <section className="rounded-2xl border border-gray-200 bg-gray-50 p-6 sm:p-8 mb-10">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Sans l&apos;application</h2>
+          <Titre>Sans l&apos;application</Titre>
           <p className="text-gray-700 leading-relaxed">
-            Si vous n&apos;avez plus accès à l&apos;application ou à votre téléphone, écrivez-nous à :
+            Si vous n&apos;avez plus accès à votre téléphone ou à l&apos;application, écrivez à
           </p>
           <p className="my-4">
             <a
@@ -124,48 +139,100 @@ export default function SuppressionComptePage() {
               {CONTACT_EMAIL}
             </a>
           </p>
-          <p className="text-gray-700 leading-relaxed">Indiquez dans votre message :</p>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mt-2">
-            <li>
-              l&apos;objet <strong>« {OBJET} »</strong> ;
-            </li>
-            <li>l&apos;adresse e-mail ou le numéro de téléphone avec lequel vous vous êtes inscrit.</li>
-          </ul>
+          <p className="text-gray-700 leading-relaxed">
+            en indiquant <strong>le numéro de téléphone du compte à supprimer</strong>.
+          </p>
           <p className="text-gray-700 leading-relaxed mt-5">
-            Nous traitons votre demande sous <strong>30 jours</strong> et vous confirmons la
-            suppression par retour. Nous pouvons vous demander de confirmer la demande depuis
-            l&apos;adresse ou le numéro associé au compte, pour éviter qu&apos;un tiers supprime votre
-            compte à votre place.
+            Nous vous répondons sous un mois, comme le RGPD nous y oblige, et le plus souvent sous
+            quelques jours. Nous vous demanderons de confirmer que le numéro est bien le vôtre avant
+            de supprimer quoi que ce soit : c&apos;est la seule protection contre quelqu&apos;un qui
+            demanderait la suppression du compte d&apos;un autre.
           </p>
         </section>
 
-        <div className="space-y-8">
+        <div className="space-y-10">
           <section>
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Ce qui est supprimé</h2>
+            <Titre>Ce qui est supprimé</Titre>
+            <p className="text-gray-600 leading-relaxed mb-3">
+              Tout, immédiatement et sans retour possible :
+            </p>
             <ul className="list-disc pl-6 space-y-2 text-gray-600">
               {SUPPRIME.map((s) => (
                 <li key={s}>{s}</li>
               ))}
             </ul>
+            <p className="text-gray-600 leading-relaxed mt-4">
+              Nous effaçons aussi les traces que votre compte avait laissées{" "}
+              <strong>chez les autres</strong> : la référence à votre compte dans leurs listes, et
+              votre prénom dans les notifications qu&apos;ils ont reçues. Vos proches ne garderont
+              donc pas votre nom dans leur application.
+            </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Ce qui peut être conservé</h2>
-            <ul className="list-disc pl-6 space-y-2 text-gray-600">
-              {CONSERVE.map((c, i) => (
-                <li key={i}>{c}</li>
+            <Titre>Ce qui ne peut pas être supprimé</Titre>
+            <p className="text-gray-600 leading-relaxed mb-3">Par honnêteté, trois choses nous échappent :</p>
+            <ul className="list-disc pl-6 space-y-3 text-gray-600">
+              {HORS_DE_PORTEE.map((h) => (
+                <li key={h.titre}>
+                  <strong className="text-gray-800">{h.titre}</strong> {h.texte}
+                </li>
               ))}
             </ul>
+            <p className="text-gray-600 leading-relaxed mt-4">
+              Enfin, les vidéos encore présentes <strong>sur votre téléphone</strong> ne sont pas
+              chez nous : elles partent quand vous désinstallez l&apos;application.
+            </p>
           </section>
 
-          <section className="border-l-4 border-[#7C3AED] pl-4 text-gray-600 leading-relaxed">
-            <p>
-              Conformément au RGPD, vous disposez également d&apos;un droit d&apos;accès, de
-              rectification, de portabilité et d&apos;opposition sur vos données. Voir la{" "}
+          <section className="rounded-2xl border border-amber-200 bg-amber-50 p-6 sm:p-8">
+            <Titre>Votre abonnement</Titre>
+            <p className="text-gray-700 leading-relaxed mb-3">
+              <strong>Supprimer votre compte ne résilie pas votre abonnement Safe Back Plus.</strong>{" "}
+              Les abonnements sont gérés par la boutique qui les encaisse, pas par nous :
+            </p>
+            <ul className="list-disc pl-6 space-y-2 text-gray-700">
+              <li>
+                sur Android, dans <strong>Google Play → Menu → Paiements et abonnements → Abonnements</strong> ;
+              </li>
+              <li>
+                sur iPhone, dans <strong>Réglages → votre nom → Abonnements</strong>.
+              </li>
+            </ul>
+            <p className="text-gray-700 leading-relaxed mt-3">
+              Pensez à le faire avant de supprimer le compte : ensuite, l&apos;application ne pourra
+              plus vous y conduire.
+            </p>
+          </section>
+
+          <section>
+            <Titre>Nous joindre</Titre>
+            <p className="text-gray-600 leading-relaxed">
+              {EDITEUR}
+              <br />
+              {ADRESSE}
+              <br />
+              <a href={MAILTO} className="font-semibold text-gray-900 underline">
+                {CONTACT_EMAIL}
+              </a>
+            </p>
+            <p className="text-gray-600 leading-relaxed mt-4">
+              Vous pouvez aussi introduire une réclamation auprès de la{" "}
+              <a href="https://www.cnil.fr" rel="noopener" target="_blank" className="underline">
+                CNIL
+              </a>
+              .
+            </p>
+            <p className="text-gray-600 leading-relaxed mt-4">
+              Nos{" "}
+              <Link href="/cgu" className="underline">
+                conditions générales d&apos;utilisation
+              </Link>{" "}
+              et notre{" "}
               <Link href="/confidentialite" className="underline">
                 politique de confidentialité
-              </Link>
-              .
+              </Link>{" "}
+              décrivent ce que nous collectons et combien de temps nous le conservons.
             </p>
           </section>
         </div>
