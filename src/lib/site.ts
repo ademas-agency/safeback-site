@@ -18,15 +18,19 @@ export const SITE_DESCRIPTION =
   "SafeBack est une application de sécurité personnelle. Partage de trajet en temps réel, alerte d'urgence en un geste, carte des lieux sûrs.";
 
 /**
- * Lien de téléchargement de l'app, utilisé par la page d'invitation `/i/<code>`.
- *
- * Aujourd'hui un lien TestFlight (« https://testflight.apple.com/join/… ») ;
- * à la publication, le remplacer par le lien App Store. Une seule valeur à
- * changer chez l'hébergeur : `NEXT_PUBLIC_APP_DOWNLOAD_URL`.
- *
- * Sans cette variable, le bouton renvoie vers la page Télécharger du site,
- * pour ne jamais laisser un bouton mort face à quelqu'un qui vient d'être
- * invité.
+ * Fiche App Store de l'app, publiée le 2 octobre 2026. Utilisée par tous les
+ * boutons « App Store » du site et par les pages `/i/<code>` et `/a/<id>`.
  */
-export const APP_DOWNLOAD_URL =
-  process.env.NEXT_PUBLIC_APP_DOWNLOAD_URL?.trim() || "/telecharger";
+export const APP_STORE_URL = "https://apps.apple.com/fr/app/safe-back/id6760755038";
+
+/**
+ * Lien de téléchargement de l'app, utilisé par la page d'invitation `/i/<code>`
+ * et la page d'alerte `/a/<id>`.
+ *
+ * C'est le lien App Store, fixé ici dans le code et PLUS par une variable
+ * d'environnement : avant la publication, `NEXT_PUBLIC_APP_DOWNLOAD_URL`
+ * portait le lien TestFlight chez l'hébergeur, et une variable oubliée aurait
+ * continué d'y envoyer les invités après la sortie sur le store. La variable
+ * peut être supprimée chez l'hébergeur, elle n'est plus lue.
+ */
+export const APP_DOWNLOAD_URL = APP_STORE_URL;

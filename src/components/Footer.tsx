@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { APP_STORE_URL } from "@/lib/site";
 
 function InstagramIcon() {
   return (
@@ -102,9 +103,9 @@ export default function Footer() {
             <h4 className="text-white font-semibold text-base mb-4">Télécharger</h4>
             <ul className="space-y-3">
               <li>
-                <Link href="/telecharger" className="text-white/40 hover:text-white transition-colors duration-200 text-[15px]">
+                <a href={APP_STORE_URL} rel="noopener" className="text-white/40 hover:text-white transition-colors duration-200 text-[15px]">
                   App Store
-                </Link>
+                </a>
               </li>
               <li>
                 <Link href="/telecharger" className="text-white/40 hover:text-white transition-colors duration-200 text-[15px]">

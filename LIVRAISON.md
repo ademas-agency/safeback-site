@@ -85,10 +85,11 @@ Deux éléments du site servent à l'app iOS, à ne pas retirer :
   de l'équipe app et reflète l'edge function `delete-account` : si celle-ci change, la
   page change avec. L'adresse affichée est `CONTACT_EMAIL` de `src/lib/legal.ts`.
 - `/i/<code>` — page vue uniquement par ceux qui n'ont pas l'app. Son bouton
-  d'installation pointe vers `NEXT_PUBLIC_APP_DOWNLOAD_URL` (lien TestFlight pour
-  l'instant, lien App Store à la publication). À définir chez l'hébergeur, puis
-  redéployer. Ne jamais brancher d'outil d'analyse sur cette page : le code de
-  l'URL permet de devenir le protecteur de quelqu'un.
+  d'installation pointe vers la fiche App Store (`APP_STORE_URL` dans
+  `src/lib/site.ts`). La variable `NEXT_PUBLIC_APP_DOWNLOAD_URL`, qui portait le
+  lien TestFlight, n'est plus lue et peut être supprimée chez l'hébergeur. Ne jamais
+  brancher d'outil d'analyse sur cette page : le code de l'URL permet de devenir le
+  protecteur de quelqu'un.
 - `/a/<id>` — page du lien d'alerte, celui que porte le SMS envoyé aux proches à
   la place d'un lien Google Maps. Vue par ceux qui n'ont pas l'app. Elle interroge
   la fonction publique `suivre_alerte` du projet Supabase toutes les 15 secondes
