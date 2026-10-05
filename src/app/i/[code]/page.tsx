@@ -7,27 +7,23 @@ import BoutonInstaller from "@/components/BoutonInstaller";
 /**
  * Page d'invitation : `https://safe-back.fr/i/<code>`.
  *
- * Elle n'est vue QUE par les personnes qui n'ont pas encore l'app. Quand
- * SafeBack est installée, iOS et Android ouvrent le lien directement dans
- * l'app (voir `/.well-known/`) et cette page n'est jamais affichée.
+ * Quand l'app est installée et que le système a validé le lien, le téléphone
+ * ouvre l'app directement et cette page n'est jamais vue. Elle est donc pour
+ * deux cas : la personne n'a pas l'app, ou le système n'a pas ouvert l'app
+ * alors qu'elle est là (lien tapé dans la barre d'adresse, validation du
+ * domaine pas encore faite sur ce téléphone, build hors magasin). Pour ce
+ * second cas, le bouton « J'ai déjà l'app » ouvre l'app par son schéma
+ * interne, `safeback://invite/<code>`, que les deux apps comprennent — et
+ * qui, lui, n'a besoin d'aucune validation.
  *
- * Elle doit dire d'abord POURQUOI la personne est là — quelqu'un lui confie
- * sa sécurité — et seulement ensuite que l'app est nécessaire pour accepter.
- * La première version mettait « Installer SafeBack » en avant, et les
- * retours étaient unanimes : « l'invitation demande juste de télécharger
- * l'app ». Le bouton n'est plus le sujet, l'invitation l'est.
+ * Quatre lignes et deux boutons. La version précédente expliquait tout, et
+ * les retours étaient : « je comprends rien à cette page », « 1000 fois trop
+ * de texte ». Ce qui est indispensable, et seulement ça : pourquoi on est là,
+ * installer, revenir sur le lien.
  *
- * Puis la phrase indispensable : REVENIR sur ce même lien après
- * l'installation. Les systèmes ne transmettent rien à travers une
- * installation — sans ce retour, l'invitation est perdue.
- *
- * Le bouton s'adapte au téléphone (App Store, Google Play, ou « bientôt sur
- * Android » tant que la fiche Play n'existe pas) : voir `BoutonInstaller`.
- *
- * Confidentialité : le code permet de devenir le protecteur de quelqu'un.
- * La page ne l'affiche pas, ne le journalise pas et ne le transmet à aucun
- * service tiers. Le prénom de la personne qui invite n'apparaît pas non
- * plus : la page est publique, et un prénom n'a pas à circuler.
+ * Confidentialité : le code sert uniquement à construire le lien vers l'app,
+ * côté serveur. Il n'est ni affiché, ni journalisé, ni transmis à un tiers.
+ * Aucun prénom : la page est publique.
  */
 
 const TITRE_PARTAGE = "Quelqu'un te confie sa sécurité";
@@ -54,27 +50,13 @@ export const metadata: Metadata = {
   },
 };
 
-const STEPS = [
-  {
-    n: "1",
-    title: "Installe Safe Back",
-    text: "Avec le bouton ci-dessus. L'installation prend moins d'une minute.",
-  },
-  {
-    n: "2",
-    title: "Reviens sur ce lien",
-    text: "Depuis le message où tu l'as reçu. Il s'ouvrira directement dans l'app.",
-  },
-  {
-    n: "3",
-    title: "Accepte l'invitation",
-    text: "Tu deviens son proche de confiance. Et si tu veux, tu peux lui demander de veiller sur toi en retour.",
-  },
-];
+export default async function InvitationPage({ params }: { params: Promise<{ code: string }> }) {
+  const { code } = await params;
+  // Lettres et chiffres seulement : tout le reste est du bruit, et n'a rien à
+  // faire dans un lien qu'on va proposer d'ouvrir.
+  const codeSur = code.toUpperCase().replace(/[^A-Z0-9]/g, "");
+  const lienApp = codeSur ? `safeback://invite/${codeSur}` : null;
 
-// L'URL porte le code (`/i/<code>`), mais la page ne le lit pas : c'est l'app
-// qui s'en charge, une fois installée, quand la personne revient sur le lien.
-export default function InvitationPage() {
   return (
     <div className="relative min-h-screen flex flex-col bg-nuit text-white overflow-hidden">
       <div
@@ -93,56 +75,27 @@ export default function InvitationPage() {
 
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pb-16">
         <div className="w-full max-w-md text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-lavande/80 mb-4">
-            Invitation
-          </p>
-
-          <h1 className="text-3xl sm:text-4xl font-bold leading-tight mb-4">
+          <h1 className="text-3xl sm:text-4xl font-bold leading-tight mb-5">
             Quelqu&apos;un te confie <span className="gradient-text">sa sécurité</span>
           </h1>
 
-          <p className="text-white/70 text-base sm:text-lg leading-relaxed mb-3">
-            Tu as reçu ce lien parce qu&apos;une personne t&apos;a choisi comme{" "}
-            <strong className="text-white">proche de confiance</strong> sur Safe Back.
-            Si elle déclenche une alerte, tu es prévenu aussitôt et tu vois où elle est.
-          </p>
-          <p className="text-white/55 text-base leading-relaxed mb-8">
-            Pour accepter, il te faut l&apos;app. C&apos;est gratuit.
+          <p className="text-white/70 text-lg leading-relaxed mb-8">
+            Pour accepter, installe Safe Back, puis <strong className="text-white">reviens sur ce lien</strong>.
           </p>
 
-          <BoutonInstaller libelle="Installer l'app pour accepter" />
+          <BoutonInstaller libelle="Installer l'app" />
 
-          {/* La phrase indispensable : sans ce retour, l'invitation est perdue. */}
-          <div className="mt-8 glass-card rounded-2xl px-5 py-4 text-left">
-            <p className="font-semibold text-white leading-snug">
-              Une fois l&apos;app installée, reviens sur ce lien pour accepter
-              l&apos;invitation.
+          {lienApp && (
+            <p className="mt-8 text-white/50 text-sm">
+              Tu as déjà l&apos;app ?{" "}
+              <a
+                href={lienApp}
+                className="text-white font-semibold underline underline-offset-4 hover:text-lavande"
+              >
+                Ouvrir l&apos;invitation dans Safe Back
+              </a>
             </p>
-            <p className="text-white/50 text-sm mt-2 leading-relaxed">
-              Le téléphone ne garde pas l&apos;invitation pendant l&apos;installation.
-              C&apos;est en rouvrant ce lien, depuis le message où tu l&apos;as reçu,
-              que l&apos;app la retrouve.
-            </p>
-          </div>
-
-          <ol className="mt-10 space-y-5 text-left">
-            {STEPS.map((s) => (
-              <li key={s.n} className="flex gap-4">
-                <span className="shrink-0 w-8 h-8 rounded-full gradient-bg flex items-center justify-center text-sm font-bold">
-                  {s.n}
-                </span>
-                <div>
-                  <p className="font-semibold">{s.title}</p>
-                  <p className="text-white/50 text-sm leading-relaxed">{s.text}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-
-          <p className="mt-10 text-white/35 text-xs leading-relaxed">
-            Tu as déjà Safe Back ? Ouvre ce lien depuis le message où tu
-            l&apos;as reçu : il s&apos;ouvrira directement dans l&apos;app.
-          </p>
+          )}
         </div>
       </main>
 
