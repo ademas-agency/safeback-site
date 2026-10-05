@@ -2,9 +2,8 @@
 
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Smartphone } from "lucide-react";
-import Link from "next/link";
 import React from "react";
-import { APP_STORE_URL } from "@/lib/site";
+import { APP_STORE_URL, PLAY_STORE_URL } from "@/lib/site";
 
 export default function DownloadSection() {
   const mouseX = useMotionValue(0);
@@ -99,15 +98,16 @@ export default function DownloadSection() {
                     </svg>
                     App Store
                   </a>
-                  <Link
-                    href="/telecharger"
+                  <a
+                    href={PLAY_STORE_URL}
+                    rel="noopener"
                     className="flex items-center gap-3 bg-white text-nuit px-8 py-4 rounded-2xl font-semibold hover:bg-white/90 transition-all hover:scale-105 hover:shadow-xl"
                   >
                     <svg viewBox="0 0 24 24" className="w-6 h-6" fill="currentColor">
                       <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 010 1.38l-2.302 2.302L15.116 12l2.582-2.492zM5.864 2.658L16.8 8.99l-2.302 2.302L5.864 2.658z"/>
                     </svg>
                     Google Play
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

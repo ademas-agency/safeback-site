@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { APP_STORE_URL } from "@/lib/site";
+import { APP_STORE_URL, PLAY_STORE_URL } from "@/lib/site";
 
 function InstagramIcon() {
   return (
@@ -109,9 +109,9 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <Link href="/telecharger" className="text-white/40 hover:text-white transition-colors duration-200 text-[15px]">
+                <a href={PLAY_STORE_URL} rel="noopener" className="text-white/40 hover:text-white transition-colors duration-200 text-[15px]">
                   Google Play
-                </Link>
+                </a>
               </li>
             </ul>
           </div>

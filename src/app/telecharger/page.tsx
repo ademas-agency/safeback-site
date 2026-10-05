@@ -8,7 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import IPhonePro from "@/components/IPhonePro";
 import MapBackground from "@/components/MapBackground";
-import { APP_STORE_URL } from "@/lib/site";
+import { APP_STORE_URL, PLAY_STORE_URL } from "@/lib/site";
 
 /* ──────────────────────────────────────────────
    PHASE 0 — Téléchargement
@@ -424,7 +424,8 @@ export default function TelechargerPage() {
                     </div>
                   </motion.a>
                   <motion.a
-                    href="#"
+                    href={PLAY_STORE_URL}
+                    rel="noopener"
                     whileHover={{ scale: 1.04, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                     className="flex items-center gap-3 bg-white text-nuit px-7 py-3.5 rounded-2xl font-semibold transition-shadow hover:shadow-[0_8px_30px_rgba(124,58,237,0.2)]"
