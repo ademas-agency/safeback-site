@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SITE_NAME } from "@/lib/site";
 import BoutonInstaller from "@/components/BoutonInstaller";
+import LienOuvrirApp from "@/components/LienOuvrirApp";
 
 /**
  * Page d'invitation : `https://safe-back.fr/i/<code>`.
@@ -12,9 +13,9 @@ import BoutonInstaller from "@/components/BoutonInstaller";
  * deux cas : la personne n'a pas l'app, ou le système n'a pas ouvert l'app
  * alors qu'elle est là (lien tapé dans la barre d'adresse, validation du
  * domaine pas encore faite sur ce téléphone, build hors magasin). Pour ce
- * second cas, le bouton « J'ai déjà l'app » ouvre l'app par son schéma
- * interne, `safeback://invite/<code>`, que les deux apps comprennent — et
- * qui, lui, n'a besoin d'aucune validation.
+ * second cas, le lien « Tu as déjà l'app ? » ouvre l'app par son schéma
+ * interne (voir `LienOuvrirApp` : `safeback://` sur iPhone, `intent://` sur
+ * Android), qui n'a besoin d'aucune validation de domaine.
  *
  * Quatre lignes et deux boutons. La version précédente expliquait tout, et
  * les retours étaient : « je comprends rien à cette page », « 1000 fois trop
@@ -55,7 +56,6 @@ export default async function InvitationPage({ params }: { params: Promise<{ cod
   // Lettres et chiffres seulement : tout le reste est du bruit, et n'a rien à
   // faire dans un lien qu'on va proposer d'ouvrir.
   const codeSur = code.toUpperCase().replace(/[^A-Z0-9]/g, "");
-  const lienApp = codeSur ? `safeback://invite/${codeSur}` : null;
 
   return (
     <div className="relative min-h-screen flex flex-col bg-nuit text-white overflow-hidden">
@@ -85,15 +85,9 @@ export default async function InvitationPage({ params }: { params: Promise<{ cod
 
           <BoutonInstaller libelle="Installer l'app" />
 
-          {lienApp && (
+          {codeSur && (
             <p className="mt-8 text-white/50 text-sm">
-              Tu as déjà l&apos;app ?{" "}
-              <a
-                href={lienApp}
-                className="text-white font-semibold underline underline-offset-4 hover:text-lavande"
-              >
-                Ouvrir l&apos;invitation dans Safe Back
-              </a>
+              Tu as déjà l&apos;app ? <LienOuvrirApp code={codeSur} />
             </p>
           )}
         </div>
