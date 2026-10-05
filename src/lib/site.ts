@@ -24,6 +24,14 @@ export const SITE_DESCRIPTION =
 export const APP_STORE_URL = "https://apps.apple.com/fr/app/safe-back/id6760755038";
 
 /**
+ * Fiche Google Play de l'app. VIDE tant que l'app Android n'est pas publiée :
+ * les pages qui en ont besoin (invitation, alerte) affichent alors « bientôt
+ * sur Android » au lieu d'envoyer un téléphone Android vers l'App Store.
+ * À remplir dès la publication : https://play.google.com/store/apps/details?id=fr.safeback.app
+ */
+export const PLAY_STORE_URL = "";
+
+/**
  * Lien de téléchargement de l'app, utilisé par la page d'invitation `/i/<code>`
  * et la page d'alerte `/a/<id>`.
  *

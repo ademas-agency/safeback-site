@@ -36,6 +36,7 @@ const resourceLinks = [
 
 const companyLinks = [
   { href: "/partenaires", label: "Partenaires" },
+  { href: "/aide", label: "Aide" },
   { href: "/contact", label: "Contact" },
   { href: "/cgu", label: "Mentions légales" },
   { href: "/confidentialite", label: "Confidentialité" },

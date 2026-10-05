@@ -77,6 +77,11 @@ Deux éléments du site servent à l'app iOS, à ne pas retirer :
   **sans** l'option de redirection vers `safe-back.fr`, avec l'entrée DNS
   correspondante. C'est le site lui-même (`next.config.ts`) qui redirige `www` vers
   `safe-back.fr` pour tout, sauf `/.well-known/*`.
+- `/aide` — aide aux utilisateurs : ajouter le widget (iPhone et Android), avec ancres
+  `#widget-iphone` et `#widget-android`. À enrichir au fil des retours.
+- Le bouton d'installation des pages `/i/<code>` et `/a/<id>` suit le téléphone :
+  App Store sur iPhone, Google Play sur Android dès que `PLAY_STORE_URL` (dans
+  `src/lib/site.ts`) sera renseigné ; d'ici là, un message « bientôt sur Android ».
 - `/suppression` — page « Supprimer vos données ou votre compte », UNE page pour les
   deux URL que Google Play réclame : `/suppression#compte` (Suppression de compte, dans
   Contenu de l'application) et `/suppression#donnees` (Suppression des données, dans

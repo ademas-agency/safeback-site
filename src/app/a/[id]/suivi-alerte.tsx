@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { APP_DOWNLOAD_URL } from "@/lib/site";
+import { lienInstallation, usePlateforme } from "@/lib/plateforme";
 import { estUnIdentifiantAlerte, suivreAlerte, type Alerte } from "@/lib/supabase";
 
 /** Cadence de rafraîchissement tant que l'alerte est ouverte. */
@@ -221,17 +221,17 @@ function Carte({ lat, lon, prenom }: { lat: number; lon: number; prenom: string 
 
 /** Bandeau discret : la personne est là pour une urgence, pas pour un produit. */
 function Installer() {
-  const externe = /^https?:\/\//.test(APP_DOWNLOAD_URL);
+  const href = lienInstallation(usePlateforme());
   return (
     <p className="mt-10 text-center text-xs text-white/35 leading-relaxed">
       Avec l&apos;app SafeBack, ce lien s&apos;ouvre directement sur la personne, avec son trajet.{" "}
-      <a
-        href={APP_DOWNLOAD_URL}
-        rel={externe ? "noopener" : undefined}
-        className="text-white/60 underline underline-offset-2 hover:text-white"
-      >
-        Installer l&apos;app
-      </a>
+      {href ? (
+        <a href={href} rel="noopener" className="text-white/60 underline underline-offset-2 hover:text-white">
+          Installer l&apos;app
+        </a>
+      ) : (
+        <>Bientôt disponible sur Android.</>
+      )}
     </p>
   );
 }
