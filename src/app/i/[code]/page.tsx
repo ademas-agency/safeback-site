@@ -29,7 +29,7 @@ import LienOuvrirApp from "@/components/LienOuvrirApp";
 
 const TITRE_PARTAGE = "Quelqu'un te confie sa sécurité";
 const DESCRIPTION_PARTAGE =
-  "Une personne t'a choisi comme proche de confiance sur Safe Back. Installe l'app, puis reviens sur ce lien pour accepter.";
+  "Une personne t'a choisi comme proche de confiance sur Safe Back. Installe l'app pour accepter.";
 
 export const metadata: Metadata = {
   title: "Invitation",
@@ -80,10 +80,22 @@ export default async function InvitationPage({ params }: { params: Promise<{ cod
           </h1>
 
           <p className="text-white/70 text-lg leading-relaxed mb-8">
-            Pour accepter, installe Safe Back, puis <strong className="text-white">reviens sur ce lien</strong>.
+            Installe Safe Back, puis ouvre l&apos;app : <strong className="text-white">ton invitation t&apos;attendra</strong>.
           </p>
 
-          <BoutonInstaller libelle="Installer l'app" />
+          <BoutonInstaller libelle="Installer l'app" aCopier={codeSur ? `https://safe-back.fr/i/${codeSur}` : undefined} />
+
+          {/* En secours, si le presse-papiers n'a rien gardé : l'app propose de
+              taper ce code (« Tu as reçu une invitation ? »). Il n'a rien de
+              secret — il est déjà dans l'adresse de la page. */}
+          {codeSur && (
+            <p className="mt-6 text-white/50 text-sm">
+              Code d&apos;invitation :{" "}
+              <span className="font-mono font-semibold text-white tracking-widest select-all">
+                {codeSur.slice(0, 4)} {codeSur.slice(4)}
+              </span>
+            </p>
+          )}
 
           {codeSur && (
             <p className="mt-8 text-white/50 text-sm">

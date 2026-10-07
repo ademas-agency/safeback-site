@@ -10,7 +10,48 @@ import { lienInstallation, usePlateforme } from "@/lib/plateforme";
  * où un téléphone Android ne peut rien installer — c'était le cas, et une
  * invitation iPhone → Android finissait en impasse.
  */
-export default function BoutonInstaller({ libelle }: { libelle: string }) {
+/**
+ * Copie un texte dans le presse-papiers, au moment du geste.
+ *
+ * L'API moderne d'abord ; l'ancienne commande en secours, pour les navigateurs
+ * intégrés (Snapchat, Instagram…) qui la refusent parfois. Un échec n'empêche
+ * jamais d'aller au magasin : l'app propose aussi de taper le code.
+ */
+async function copier(texte: string) {
+  try {
+    await navigator.clipboard.writeText(texte);
+    return;
+  } catch {
+    // On tente l'ancienne méthode.
+  }
+  try {
+    const zone = document.createElement("textarea");
+    zone.value = texte;
+    zone.setAttribute("readonly", "");
+    zone.style.position = "fixed";
+    zone.style.opacity = "0";
+    document.body.appendChild(zone);
+    zone.select();
+    document.execCommand("copy");
+    document.body.removeChild(zone);
+  } catch {
+    // Rien de plus à faire : le code reste affiché sur la page.
+  }
+}
+
+export default function BoutonInstaller({
+  libelle,
+  aCopier,
+}: {
+  libelle: string;
+  /**
+   * Le lien d'invitation, copié au moment d'installer. Un lien ne survit pas à
+   * une installation : l'app le retrouve dans le presse-papiers au premier
+   * lancement (Android) ou propose de le coller (iPhone). Sans lui, la personne
+   * devait revenir sur le message d'origine, ce que presque personne ne fait.
+   */
+  aCopier?: string;
+}) {
   const plateforme = usePlateforme();
   const href = lienInstallation(plateforme);
 
@@ -33,6 +74,16 @@ export default function BoutonInstaller({ libelle }: { libelle: string }) {
     <a
       href={href}
       rel="noopener"
+      onClick={
+        aCopier
+          ? (e) => {
+              e.preventDefault();
+              void copier(aCopier).finally(() => {
+                window.location.href = href;
+              });
+            }
+          : undefined
+      }
       className="inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-white text-nuit px-8 py-4 rounded-2xl font-semibold text-base transition-shadow hover:shadow-[0_8px_30px_rgba(47,107,255,0.25)]"
     >
       {plateforme === "android" ? (
