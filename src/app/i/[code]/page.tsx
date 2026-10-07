@@ -83,19 +83,7 @@ export default async function InvitationPage({ params }: { params: Promise<{ cod
             Installe Safe Back, puis ouvre l&apos;app : <strong className="text-white">ton invitation t&apos;attendra</strong>.
           </p>
 
-          <BoutonInstaller libelle="Installer l'app" aCopier={codeSur ? `https://safe-back.fr/i/${codeSur}` : undefined} />
-
-          {/* En secours, si le presse-papiers n'a rien gardé : l'app propose de
-              taper ce code (« Tu as reçu une invitation ? »). Il n'a rien de
-              secret — il est déjà dans l'adresse de la page. */}
-          {codeSur && (
-            <p className="mt-6 text-white/50 text-sm">
-              Code d&apos;invitation :{" "}
-              <span className="font-mono font-semibold text-white tracking-widest select-all">
-                {codeSur.slice(0, 4)} {codeSur.slice(4)}
-              </span>
-            </p>
-          )}
+          <BoutonInstaller libelle="Installer l'app" codeInvitation={codeSur || undefined} />
 
           {codeSur && (
             <p className="mt-8 text-white/50 text-sm">

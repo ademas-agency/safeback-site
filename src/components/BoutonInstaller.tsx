@@ -41,19 +41,29 @@ async function copier(texte: string) {
 
 export default function BoutonInstaller({
   libelle,
-  aCopier,
+  codeInvitation,
 }: {
   libelle: string;
   /**
-   * Le lien d'invitation, copié au moment d'installer. Un lien ne survit pas à
-   * une installation : l'app le retrouve dans le presse-papiers au premier
-   * lancement (Android) ou propose de le coller (iPhone). Sans lui, la personne
-   * devait revenir sur le message d'origine, ce que presque personne ne fait.
+   * Le code d'invitation, à faire traverser l'installation. Un lien ne survit
+   * pas à une installation ; sans ce relais, la personne devait revenir sur le
+   * message d'origine, ce que presque personne ne fait.
+   *
+   * - Android : dans le lien Play (`referrer`), que Play rend à l'app
+   *   installée. Rien à copier, rien à faire.
+   * - iPhone : l'App Store ne transmet rien. Le lien est copié au moment
+   *   d'installer ; à la première ouverture, l'app propose de le coller.
    */
-  aCopier?: string;
+  codeInvitation?: string;
 }) {
   const plateforme = usePlateforme();
-  const href = lienInstallation(plateforme);
+  const base = lienInstallation(plateforme);
+  const href =
+    base && codeInvitation && plateforme === "android"
+      ? `${base}&referrer=${encodeURIComponent(`invite=${codeInvitation}`)}`
+      : base;
+  const aCopier =
+    codeInvitation && plateforme !== "android" ? `https://safe-back.fr/i/${codeInvitation}` : undefined;
 
   if (!href) {
     return (
