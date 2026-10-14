@@ -14,7 +14,7 @@ export default function ConsignePromo() {
       {plateforme === "android" ? (
         <>Installe Safe Back : <strong className="text-white">le code s&apos;applique tout seul</strong> à l&apos;inscription.</>
       ) : (
-        <>Installe Safe Back, puis à l&apos;inscription touche <strong className="text-white">« J&apos;ai un code »</strong> et colle-le : il est copié quand tu installes.</>
+        <>Installe Safe Back, puis à l&apos;inscription touche <strong className="text-white">« J&apos;ai un code promo »</strong> et colle-le : il est copié quand tu installes.</>
       )}
     </p>
   );
