@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SITE_NAME } from "@/lib/site";
 import BoutonInstaller from "@/components/BoutonInstaller";
 import LienOuvrirApp from "@/components/LienOuvrirApp";
+import SortirNavigateurIntegre from "@/components/SortirNavigateurIntegre";
 
 /**
  * Page d'invitation : `https://safe-back.fr/i/<code>`.
@@ -16,6 +17,10 @@ import LienOuvrirApp from "@/components/LienOuvrirApp";
  * second cas, le lien « Tu as déjà l'app ? » ouvre l'app par son schéma
  * interne (voir `LienOuvrirApp` : `safeback://` sur iPhone, `intent://` sur
  * Android), qui n'a besoin d'aucune validation de domaine.
+ *
+ * Cas à part : le navigateur intégré d'une app (Snapchat, Instagram…), qui
+ * n'ouvre jamais les liens universels. `SortirNavigateurIntegre` y affiche en
+ * tête de quoi ouvrir l'app ou passer dans le vrai navigateur.
  *
  * Quatre lignes et deux boutons. La version précédente expliquait tout, et
  * les retours étaient : « je comprends rien à cette page », « 1000 fois trop
@@ -74,6 +79,7 @@ export default async function InvitationPage({ params }: { params: Promise<{ cod
       </header>
 
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pb-16">
+        <SortirNavigateurIntegre code={codeSur} />
         <div className="w-full max-w-md text-center">
           <h1 className="text-3xl sm:text-4xl font-bold leading-tight mb-5">
             Quelqu&apos;un te confie <span className="gradient-text">sa sécurité</span>
