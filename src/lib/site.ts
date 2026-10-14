@@ -42,3 +42,15 @@ export const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=fr.
  * peut être supprimée chez l'hébergeur, elle n'est plus lue.
  */
 export const APP_DOWNLOAD_URL = APP_STORE_URL;
+
+/**
+ * Identifiant « provider token » (`pt`) des liens de campagne App Store, propre
+ * au compte développeur. Il active le comptage des installations iPhone par
+ * source dans App Store Connect (App Analytics → Campagnes). Tant qu'il est
+ * vide, le lien App Store part sans campagne : les installations Android
+ * restent comptées par source, pas celles d'iPhone.
+ *
+ * Où le trouver : App Store Connect → App Analytics → Campagnes → « Générer un
+ * lien de campagne » ; la valeur après `pt=` dans le lien produit.
+ */
+export const APP_STORE_PROVIDER_TOKEN = "";

@@ -77,10 +77,14 @@ Deux éléments du site servent à l'app iOS, à ne pas retirer :
   **sans** l'option de redirection vers `safe-back.fr`, avec l'entrée DNS
   correspondante. C'est le site lui-même (`next.config.ts`) qui redirige `www` vers
   `safe-back.fr` pour tout, sauf `/.well-known/*`.
-- `safe-back.fr/app` (alias `/go`) — le lien magasin universel, à imprimer ou à
-  partager : un téléphone Android est envoyé sur Google Play, un iPhone sur l'App
-  Store, tout le reste sur la page Télécharger. Redirection côté serveur, dans
-  `next.config.ts`, à partir des mêmes constantes `APP_STORE_URL` et `PLAY_STORE_URL`.
+- `safe-back.fr/app?via=<source>` (alias `/go`) — le lien universel et tracké.
+  Android → Google Play, iPhone → App Store, le reste → page Télécharger. La source
+  (`instagram`, `tiktok`, `facebook`, ou tout mot court décidé le jour même) est
+  transmise au store, qui compte ses installations par source : Play Console
+  (rapports d'acquisition, canaux UTM) et App Store Connect (App Analytics →
+  Campagnes). Pour l'App Store, renseigner `APP_STORE_PROVIDER_TOKEN` dans
+  `src/lib/site.ts` (voir le commentaire) sinon seules les installations Android
+  sont comptées. Code : `src/app/app/route.ts` et `src/lib/lien-store.ts`.
 - `/aide` — aide aux utilisateurs : ajouter le widget (iPhone et Android), avec ancres
   `#widget-iphone` et `#widget-android`. À enrichir au fil des retours.
 - Le bouton d'installation des pages `/i/<code>` et `/a/<id>` suit le téléphone :
