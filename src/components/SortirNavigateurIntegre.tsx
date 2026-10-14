@@ -2,12 +2,12 @@
 
 import { usePlateforme } from "@/lib/plateforme";
 import { useNavigateurIntegre } from "@/lib/navigateur-integre";
-import { lienSchemaInvitation } from "@/components/LienOuvrirApp";
+import { lienSchema } from "@/components/LienOuvrirApp";
 
 /**
- * Dans le navigateur intégré de Snapchat, Instagram, TikTok… le lien
- * d'invitation n'ouvre pas l'app, même installée : ces navigateurs ignorent les
- * liens universels. On propose, dans l'ordre :
+ * Dans le navigateur intégré de Snapchat, Instagram, TikTok… un lien
+ * `safe-back.fr/i/…` ou `/p/…` n'ouvre pas l'app, même installée : ces
+ * navigateurs ignorent les liens universels. On propose, dans l'ordre :
  *
  * 1. d'ouvrir l'app par son schéma interne, au toucher (certains de ces
  *    navigateurs l'acceptent, d'autres non — on ne le sait qu'en essayant) ;
@@ -19,12 +19,19 @@ import { lienSchemaInvitation } from "@/components/LienOuvrirApp";
  * Rien d'automatique : sans geste de la personne, ces navigateurs bloquent
  * l'ouverture, et sur iPhone sans l'app, Safari afficherait une erreur.
  */
-export default function SortirNavigateurIntegre({ code }: { code: string }) {
+export default function SortirNavigateurIntegre({
+  type,
+  code,
+}: {
+  /** `invite` pour `/i/<code>`, `promo` pour `/p/<code>`. */
+  type: "invite" | "promo";
+  code: string;
+}) {
   const app = useNavigateurIntegre();
   const plateforme = usePlateforme();
   if (!app || !code) return null;
 
-  const page = `safe-back.fr/i/${code}`;
+  const page = `safe-back.fr/${type === "invite" ? "i" : "p"}/${code}`;
   const versNavigateur =
     plateforme === "android"
       ? { href: `intent://${page}#Intent;scheme=https;package=com.android.chrome;end`, libelle: "Ouvrir dans Chrome" }
@@ -37,10 +44,10 @@ export default function SortirNavigateurIntegre({ code }: { code: string }) {
         Le navigateur de {app} n&apos;ouvre pas les apps tout seul. Touche le bouton ci-dessous.
       </p>
       <a
-        href={lienSchemaInvitation(plateforme, code)}
+        href={lienSchema(plateforme, type, code)}
         className="block w-full text-center rounded-xl bg-white text-nuit font-semibold py-3 mb-3"
       >
-        Ouvrir l&apos;invitation dans Safe Back
+        {type === "invite" ? "Ouvrir l'invitation dans Safe Back" : "Ouvrir Safe Back avec le code"}
       </a>
       <a href={versNavigateur.href} className="block w-full text-center rounded-xl border border-white/25 font-semibold py-3">
         {versNavigateur.libelle}

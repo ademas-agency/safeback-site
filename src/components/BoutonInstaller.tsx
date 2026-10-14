@@ -42,6 +42,7 @@ async function copier(texte: string) {
 export default function BoutonInstaller({
   libelle,
   codeInvitation,
+  codePromo,
 }: {
   libelle: string;
   /**
@@ -55,15 +56,24 @@ export default function BoutonInstaller({
    *   d'installer ; à la première ouverture, l'app propose de le coller.
    */
   codeInvitation?: string;
+  /**
+   * Le code promo d'un partenaire (influenceur, BDE), relayé de la même façon :
+   * `referrer=promo=<CODE>` sur Android, appliqué tout seul par l'app ; sur
+   * iPhone le code est copié, à coller dans « J'ai un code ».
+   */
+  codePromo?: string;
 }) {
   const plateforme = usePlateforme();
   const base = lienInstallation(plateforme);
+  const referrer = codeInvitation ? `invite=${codeInvitation}` : codePromo ? `promo=${codePromo}` : null;
   const href =
-    base && codeInvitation && plateforme === "android"
-      ? `${base}&referrer=${encodeURIComponent(`invite=${codeInvitation}`)}`
-      : base;
+    base && referrer && plateforme === "android" ? `${base}&referrer=${encodeURIComponent(referrer)}` : base;
   const aCopier =
-    codeInvitation && plateforme !== "android" ? `https://safe-back.fr/i/${codeInvitation}` : undefined;
+    plateforme === "android"
+      ? undefined
+      : codeInvitation
+        ? `https://safe-back.fr/i/${codeInvitation}`
+        : codePromo;
 
   if (!href) {
     return (

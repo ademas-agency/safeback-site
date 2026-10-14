@@ -79,7 +79,7 @@ export default async function InvitationPage({ params }: { params: Promise<{ cod
       </header>
 
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pb-16">
-        <SortirNavigateurIntegre code={codeSur} />
+        <SortirNavigateurIntegre type="invite" code={codeSur} />
         <div className="w-full max-w-md text-center">
           <h1 className="text-3xl sm:text-4xl font-bold leading-tight mb-5">
             Quelqu&apos;un te confie <span className="gradient-text">sa sécurité</span>
