@@ -82,9 +82,9 @@ Deux éléments du site servent à l'app iOS, à ne pas retirer :
   (`instagram`, `tiktok`, `facebook`, ou tout mot court décidé le jour même) est
   transmise au store, qui compte ses installations par source : Play Console
   (rapports d'acquisition, canaux UTM) et App Store Connect (App Analytics →
-  Campagnes). Pour l'App Store, renseigner `APP_STORE_PROVIDER_TOKEN` dans
-  `src/lib/site.ts` (voir le commentaire) sinon seules les installations Android
-  sont comptées. Code : `src/app/app/route.ts` et `src/lib/lien-store.ts`.
+  Campagnes). Pour l'App Store, `APP_STORE_PROVIDER_TOKEN` dans `src/lib/site.ts` est
+  l'identifiant de campagne du compte développeur (renseigné le 14/10/2026). Apple
+  n'affiche une campagne qu'à partir de cinq installations par des comptes différents. Code : `src/app/app/route.ts` et `src/lib/lien-store.ts`.
 - `/aide` — aide aux utilisateurs : ajouter le widget (iPhone et Android), avec ancres
   `#widget-iphone` et `#widget-android`. À enrichir au fil des retours.
 - Le bouton d'installation des pages `/i/<code>` et `/a/<id>` suit le téléphone :

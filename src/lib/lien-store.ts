@@ -1,4 +1,4 @@
-import { APP_STORE_PROVIDER_TOKEN, APP_STORE_URL, PLAY_STORE_URL } from "@/lib/site";
+import { APP_STORE_ID, APP_STORE_PROVIDER_TOKEN, APP_STORE_URL, PLAY_STORE_URL } from "@/lib/site";
 
 export type Appareil = "android" | "ios" | "autre";
 
@@ -29,10 +29,11 @@ export function lienStore(appareil: Appareil, source: string): string {
     return `${PLAY_STORE_URL}&referrer=${encodeURIComponent(referrer)}`;
   }
   if (appareil === "ios") {
-    const sep = APP_STORE_URL.includes("?") ? "&" : "?";
+    // La forme exacte produite par App Store Connect (« Générer un lien de
+    // campagne ») : c'est celle qu'App Analytics sait rattacher à une campagne.
     return APP_STORE_PROVIDER_TOKEN
-      ? `${APP_STORE_URL}${sep}pt=${APP_STORE_PROVIDER_TOKEN}&ct=${source}&mt=8`
-      : `${APP_STORE_URL}${sep}ct=${source}`;
+      ? `https://apps.apple.com/app/apple-store/id${APP_STORE_ID}?pt=${APP_STORE_PROVIDER_TOKEN}&ct=${source}&mt=8`
+      : APP_STORE_URL;
   }
   return "/telecharger";
 }

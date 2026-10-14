@@ -53,4 +53,7 @@ export const APP_DOWNLOAD_URL = APP_STORE_URL;
  * Où le trouver : App Store Connect → App Analytics → Campagnes → « Générer un
  * lien de campagne » ; la valeur après `pt=` dans le lien produit.
  */
-export const APP_STORE_PROVIDER_TOKEN = "";
+export const APP_STORE_PROVIDER_TOKEN = "128672061";
+
+/** Identifiant numérique de l'app sur l'App Store, tel qu'il figure dans APP_STORE_URL. */
+export const APP_STORE_ID = "6760755038";
