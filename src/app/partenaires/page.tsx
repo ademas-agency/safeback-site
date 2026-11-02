@@ -20,6 +20,8 @@ import {
   Heart,
   Users,
   Handshake,
+  LogIn,
+  ArrowRight,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -259,6 +261,24 @@ export default function PartenairesPage() {
               </motion.div>
             ))}
           </motion.div>
+
+          {/* Accès des BDE déjà partenaires : connexion au back-office avec
+              l'email et le mot de passe choisis à l'invitation. */}
+          <motion.a
+            href="https://bo.safe-back.fr/login"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45 }}
+            whileHover={{ y: -2 }}
+            className="group flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mb-6 px-4 py-2.5 rounded-full bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/[0.08] transition-colors"
+          >
+            <LogIn className="w-4 h-4 text-lavande" />
+            <span className="text-white/60 text-sm">Déjà partenaire BDE ?</span>
+            <span className="text-white text-sm font-medium flex items-center gap-1">
+              Accéder à mon espace
+              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+            </span>
+          </motion.a>
 
           {/* Carte formulaire glass 3D */}
           <motion.div
