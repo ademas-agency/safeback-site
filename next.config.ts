@@ -1,6 +1,31 @@
 import type { NextConfig } from "next";
 
+/**
+ * Le blog est une application séparée, déployée par une autre équipe.
+ *
+ * Cette constante est l'UNIQUE point de contact entre les deux. Tout ce qui
+ * commence par `/blog` est servi par leur déploiement ; tout le reste — les
+ * pages du site, `/a/`, `/i/`, et surtout `/.well-known/` — reste ici et leur
+ * est inaccessible, quoi qu'ils déploient. Un blog cassé ne casse que `/blog`.
+ *
+ * Non définie (développement local, préversion), les règles ci-dessous ne sont
+ * pas posées du tout : `/blog` répond alors 404, ce qui est honnête.
+ */
+const BLOG = process.env.BLOG_DOMAIN?.replace(/\/$/, "");
+
 const nextConfig: NextConfig = {
+  async rewrites() {
+    if (!BLOG) return [];
+    return [
+      { source: "/blog", destination: `${BLOG}/blog` },
+      { source: "/blog/:path+", destination: `${BLOG}/blog/:path+` },
+      // Les fichiers statiques de leur application. Le préfixe `blog-static`
+      // est déclaré de leur côté (`assetPrefix`) pour que leurs scripts et
+      // leurs styles ne se mélangent jamais aux nôtres.
+      { source: "/blog-static/:path+", destination: `${BLOG}/blog-static/:path+` },
+    ];
+  },
+
   async redirects() {
     return [
       // L'ancienne adresse de la page de suppression, publiée quelques heures

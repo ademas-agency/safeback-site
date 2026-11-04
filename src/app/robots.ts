@@ -25,6 +25,9 @@ export default function robots(): MetadataRoute.Robots {
   }
   return {
     rules: [{ userAgent: "*", allow: "/" }],
-    sitemap: `${SITE_URL}/sitemap.xml`,
+    // Deux plans de site : celui-ci, et celui du blog, qui est une application
+    // déployée séparément. Chaque équipe publie sans toucher au fichier de
+    // l'autre.
+    sitemap: [`${SITE_URL}/sitemap.xml`, `${SITE_URL}/blog/sitemap.xml`],
   };
 }
